@@ -1,0 +1,148 @@
+/*
+ * Campaign design tokens: the campaign's own green on zinc neutrals, carried over
+ * from the previous site (brand green #008000, zinc-100 / zinc-950 grounds).
+ *   1. Primitives  (--ao-*): raw values
+ *   2. Semantic    (--bg, --fg, --accent…): what components use
+ *   3. Theme       (prefers-color-scheme or the header toggle): remaps semantic tokens; light is the default
+ *
+ * Contrast (WCAG 2.2), measured on each theme's ground:
+ *   light  fg 18.1:1 · muted 7.0:1 · accent-text 5.8:1 (5.0:1 on surface-2) · white on green button 5.1:1
+ *   dark   fg 18.1:1 · muted 7.8:1 · accent-text 9.8:1 · ink on glow button 9.8:1
+ *   ink band: paper 18.1:1 · glow 9.8:1 · gold-bright 12.5:1 · band-muted 7.8:1
+ *   gold-text: light 4.9:1 (5.4:1 on surface) · dark 11.9:1
+ * Brand green #008000 is 4.7:1 on the light ground: fine for fills, rules and large numbers,
+ * but body-size green text uses the slightly deeper --ao-green-deep.
+ * Gold is the one supporting accent (the sun, for a renewable-energy campaign), kept to a few
+ * highlights: the portrait arc, track-record figures, 100-day bars and the closing line. Never
+ * on buttons, so green stays the brand. --gold is 2.2:1 on the light ground: decoration only;
+ * gold words in light mode use --gold-text.
+ */
+:root {
+  /* 1. Primitives */
+  --ao-ink: #09090b; /* zinc-950 */
+  --ao-ink-2: #18181b; /* zinc-900 */
+  --ao-paper: #f4f4f5; /* zinc-100 */
+  --ao-paper-2: #e4e4e7; /* zinc-200 */
+  --ao-white: #ffffff;
+  --ao-green: #008000; /* brand green, hsl(120 100% 25%) */
+  --ao-green-deep: #007000;
+  --ao-green-dark: #005c00; /* hsl(120 100% 18%) */
+  --ao-glow: #39d057; /* hsl(132 62% 52%), the brand green lit up for dark grounds */
+  --ao-glow-soft: #34b234; /* hsl(120 55% 45%) */
+  --ao-gold: #d4a106;
+  --ao-gold-deep: #8a6400;
+  --ao-gold-bright: #f2c230;
+
+  /* Motion */
+  --dur-fast: 160ms;
+  --dur: 320ms;
+  --dur-slow: 700ms;
+
+  --radius-sm: 6px;
+  --radius: 12px;
+  --radius-lg: 20px;
+
+  /* 2. Semantic — light (default) */
+  --scheme: light;
+  --bg: var(--ao-paper);
+  --surface: var(--ao-white);
+  --surface-2: var(--ao-paper-2);
+  --fg: var(--ao-ink);
+  --muted: #52525b; /* zinc-600 */
+  --line: rgb(9 9 11 / 0.12);
+  --line-strong: rgb(9 9 11 / 0.24);
+  --accent: var(--ao-green);
+  --accent-text: var(--ao-green-deep);
+  --gold: var(--ao-gold);
+  --gold-text: var(--ao-gold-deep);
+  --action: var(--ao-green);
+  --action-hover: var(--ao-green-dark);
+  --on-action: var(--ao-white);
+  --focus: var(--ao-green-deep);
+  --danger: #a3261b;
+
+  /* Always-dark band (hero context, closing CTA) — identical in both themes */
+  --band: var(--ao-ink);
+  --band-2: var(--ao-ink-2);
+  --on-band: var(--ao-paper);
+  --on-band-muted: #a1a1aa; /* zinc-400 */
+  --band-line: rgb(244 244 245 / 0.14);
+
+  /* Loading curtain: black in both themes (the band colour). Over the light page a soft shadow sits
+     under its curved edge; over the dark page a shadow barely shows, so the edge is lit with a thin
+     green line instead. Text: paper 18.1:1, glow 9.8:1 on ink; paper 19.1:1, glow 10.3:1 on black. */
+  --splash-bg: var(--band);
+  --splash-fg: var(--on-band);
+  --splash-accent: var(--ao-glow);
+  --splash-line: var(--band-line);
+  --splash-edge: 0 2.5rem 5rem -1rem rgb(0 0 0 / 0.55);
+
+  /* Scrollbar (from the previous site): thin square brand-green thumb on a clear track */
+  --scrollbar-thumb: var(--ao-green);
+  --scrollbar-thumb-hover: var(--ao-green-dark);
+}
+
+/*
+ * 3. Dark theme: follows the device setting unless the visitor picked one with the
+ *    header toggle (data-theme on <html>, set before paint in app/layout.tsx).
+ *    The two dark blocks below must stay identical.
+ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --scheme: dark;
+    --bg: var(--ao-ink);
+    --surface: var(--ao-ink-2);
+    --surface-2: #27272a; /* zinc-800 */
+    --fg: var(--ao-paper);
+    --muted: #a1a1aa;
+    --line: rgb(244 244 245 / 0.1);
+    --line-strong: rgb(244 244 245 / 0.2);
+    --accent: var(--ao-glow);
+    --accent-text: var(--ao-glow);
+    --gold: var(--ao-gold-bright);
+    --gold-text: var(--ao-gold-bright);
+    --action: var(--ao-glow);
+    --action-hover: var(--ao-glow-soft);
+    --on-action: var(--ao-ink);
+    --focus: var(--ao-glow);
+    --danger: #f28b82;
+    --band: #000000;
+    --band-2: var(--ao-ink-2);
+    --scrollbar-thumb: var(--ao-green);
+    --scrollbar-thumb-hover: var(--ao-glow-soft);
+    --splash-bg: var(--band);
+    --splash-fg: var(--ao-paper);
+    --splash-accent: var(--ao-glow);
+    --splash-line: rgb(244 244 245 / 0.14);
+    --splash-edge: 0 2px 0 0 rgb(57 208 87 / 0.6), 0 1.25rem 3rem -0.5rem rgb(57 208 87 / 0.16);
+  }
+}
+
+:root[data-theme="dark"] {
+  --scheme: dark;
+  --bg: var(--ao-ink);
+  --surface: var(--ao-ink-2);
+  --surface-2: #27272a; /* zinc-800 */
+  --fg: var(--ao-paper);
+  --muted: #a1a1aa;
+  --line: rgb(244 244 245 / 0.1);
+  --line-strong: rgb(244 244 245 / 0.2);
+  --accent: var(--ao-glow);
+  --accent-text: var(--ao-glow);
+  --gold: var(--ao-gold-bright);
+  --gold-text: var(--ao-gold-bright);
+  --action: var(--ao-glow);
+  --action-hover: var(--ao-glow-soft);
+  --on-action: var(--ao-ink);
+  --focus: var(--ao-glow);
+  --danger: #f28b82;
+  --band: #000000;
+  --band-2: var(--ao-ink-2);
+  --scrollbar-thumb: var(--ao-green);
+  --scrollbar-thumb-hover: var(--ao-glow-soft);
+  --splash-bg: var(--band);
+  --splash-fg: var(--ao-paper);
+  --splash-accent: var(--ao-glow);
+  --splash-line: rgb(244 244 245 / 0.14);
+  --splash-edge: 0 2px 0 0 rgb(57 208 87 / 0.6), 0 1.25rem 3rem -0.5rem rgb(57 208 87 / 0.16);
+}

@@ -1,0 +1,519 @@
+@import "tailwindcss";
+@import "../ui/tokens.css";
+
+/* Map the semantic tokens into Tailwind so bg-surface, text-muted, border-line… follow the theme. */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-text: var(--accent-text);
+  --color-action: var(--action);
+  --color-action-hover: var(--action-hover);
+  --color-on-action: var(--on-action);
+  --color-danger: var(--danger);
+  --color-band: var(--band);
+  --color-band-2: var(--band-2);
+  --color-on-band: var(--on-band);
+  --color-on-band-muted: var(--on-band-muted);
+  --color-band-line: var(--band-line);
+  --color-glow: var(--ao-glow);
+  --color-gold: var(--gold);
+  --color-gold-text: var(--gold-text);
+  --color-gold-bright: var(--ao-gold-bright);
+  --color-paper: var(--ao-paper);
+  --color-ink: var(--ao-ink);
+
+  --font-display: var(--font-archivo);
+  --font-sans: var(--font-archivo);
+
+  --ease-sun: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html {
+  background: var(--bg);
+  color: var(--fg);
+  color-scheme: var(--scheme);
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 5.5rem;
+}
+
+/* Scrollbar (carried over from the previous site): thin square thumb, clear track, no buttons */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 0.3em;
+  height: 0.3em;
+  background: transparent;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* Theme toggle over a dark photo banner while the header is see-through (components/site-header.tsx). */
+header[data-tone="on-dark"] .theme-toggle {
+  color: #fff;
+  border-color: rgb(255 255 255 / 0.4);
+}
+
+/* Theme toggle icons: sun in light, moon in dark (mirrors the theme selectors in tokens.css) */
+.theme-toggle svg {
+  transition:
+    transform var(--dur) var(--ease-sun),
+    opacity var(--dur);
+}
+.theme-icon-moon {
+  opacity: 0;
+  transform: scale(0.5) rotate(90deg);
+}
+:root[data-theme="dark"] .theme-icon-sun {
+  opacity: 0;
+  transform: scale(0.5) rotate(-90deg);
+}
+:root[data-theme="dark"] .theme-icon-moon {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-icon-sun {
+    opacity: 0;
+    transform: scale(0.5) rotate(-90deg);
+  }
+  :root:not([data-theme="light"]) .theme-icon-moon {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -webkit-tap-highlight-color: rgb(0 128 0 / 0.18);
+}
+
+a,
+button,
+input,
+label,
+select,
+textarea,
+summary {
+  touch-action: manipulation;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p,
+li {
+  text-wrap: pretty;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.font-display {
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-stretch: 88%;
+  /* Semi-condensed widths squeeze the word space; open it back up so words never run together. */
+  word-spacing: 0.06em;
+}
+
+::selection {
+  background: var(--ao-glow);
+  color: var(--ao-ink);
+}
+
+/*
+ * On-load entrances are CSS, not JS: they start at first paint instead of after hydration,
+ * so the candidate's name never waits on a slow connection to appear.
+ * --splash-delay holds them until the loading curtain is lifting; lib/splash.ts sets it to 0s once
+ * the curtain is gone, so pages reached by client navigation animate straight away.
+ * --d staggers siblings that share a class (set inline).
+ */
+:root {
+  /* The curtain (1.45s, 0.95s long, eased) uncovers the top of the screen at about 1.95s. */
+  --splash-delay: 1.95s;
+}
+@keyframes ao-rise {
+  from {
+    transform: translateY(105%);
+  }
+}
+@keyframes ao-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+@keyframes ao-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes ao-lift {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(6px);
+  }
+}
+@keyframes ao-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+}
+.ao-rise {
+  display: inline-block;
+  animation: ao-rise 0.9s var(--ease-sun) both;
+  animation-delay: calc(var(--i, 0) * 90ms + var(--d, 0ms) + var(--splash-delay));
+}
+/* Hero portrait (components/hero-portrait.tsx): the crop cuts through both shoulders, so those cut
+   edges fade into the page: sides and bottom on small screens; only the left from lg, where the
+   right edge runs off the screen and the bottom meets the band below. The cut-out rises into place. */
+.ao-portrait-mask {
+  -webkit-mask-image:
+    linear-gradient(to right, transparent, #000 12%, #000 88%, transparent),
+    linear-gradient(to bottom, #000 76%, transparent);
+  mask-image:
+    linear-gradient(to right, transparent, #000 12%, #000 88%, transparent),
+    linear-gradient(to bottom, #000 76%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+@media (min-width: 1024px) {
+  .ao-portrait-mask {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 16%);
+    mask-image: linear-gradient(to right, transparent, #000 16%);
+  }
+}
+@keyframes ao-cutout-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6%);
+  }
+}
+.ao-cutout-rise {
+  animation: ao-cutout-rise 1.2s var(--ease-sun) calc(0.15s + var(--splash-delay)) both;
+}
+
+/* Interior page banner (components/page-hero.tsx): the photo settles slowly from a zoom, like the
+   ACOB site's hero (its ken-burns, shortened from 25s). It starts at once rather than waiting
+   for the loading curtain: lib/splash.ts drops --splash-delay at 5.3s, which would jump an 8s zoom. */
+@keyframes ao-banner-zoom {
+  from {
+    transform: scale(1.12);
+  }
+}
+.ao-banner-zoom {
+  animation: ao-banner-zoom 8s cubic-bezier(0.2, 0.6, 0.2, 1) both;
+}
+.ao-lift {
+  animation: ao-lift 0.9s var(--ease-sun) calc(0.3s + var(--d, 0ms) + var(--splash-delay)) both;
+}
+/* Header: slides down once the curtain has cleared the top of the screen (it clears the top last),
+   then each link drops in after it, one by one. */
+@keyframes ao-nav-in {
+  from {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+}
+.ao-drop {
+  animation: ao-drop 0.7s var(--ease-sun) calc(0.6s + var(--splash-delay)) both;
+}
+.ao-nav-item {
+  animation: ao-nav-in 0.6s var(--ease-sun) calc(1s + var(--i, 0) * 120ms + var(--splash-delay)) both;
+}
+
+/*
+ * Loading screen (components/splash.tsx). Build: mark pops in and its arc draws (0–1.05s), the name
+ * rises (0.45–1.35s), the bar fills. Exit: the panel lifts away like a curtain (1.45–2.4s) while the
+ * mark drifts down against it. Pure CSS, so it can never get stuck waiting on JS. It lives in the
+ * root layout and never replays on client navigation (the progress bar covers that).
+ */
+@keyframes ao-curtain {
+  to {
+    transform: translateY(-100%);
+    border-bottom-left-radius: 50% 14vh;
+    border-bottom-right-radius: 50% 14vh;
+    visibility: hidden;
+  }
+}
+@keyframes ao-splash-drift {
+  to {
+    transform: translateY(32vh);
+    opacity: 0;
+  }
+}
+@keyframes ao-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.55) rotate(-12deg);
+  }
+}
+@keyframes ao-splash-bar {
+  from {
+    transform: scaleX(0);
+  }
+}
+@keyframes ao-splash-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+.ao-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: var(--splash-bg);
+  color: var(--splash-fg);
+  /* Shadow (light theme) or lit green line (dark theme) along the curved edge, so the lifting
+     sheet reads against the page beneath; see --splash-edge in tokens.css. */
+  box-shadow: var(--splash-edge);
+  will-change: transform;
+  animation: ao-curtain 0.95s cubic-bezier(0.83, 0, 0.17, 1) 1.45s forwards;
+}
+.ao-splash-stage {
+  animation: ao-splash-drift 0.95s cubic-bezier(0.83, 0, 0.17, 1) 1.45s forwards;
+}
+.ao-splash-mark {
+  animation: ao-pop 0.7s var(--ease-sun) both;
+}
+.ao-splash-arc {
+  stroke-dasharray: 1;
+  animation: ao-draw 0.8s var(--ease-sun) 0.25s both;
+}
+.ao-splash-ao {
+  animation: ao-fade 0.5s ease 0.3s both;
+}
+.ao-splash-word {
+  display: inline-block;
+  animation: ao-rise 0.8s var(--ease-sun) calc(0.45s + var(--i, 0) * 100ms) both;
+}
+.ao-splash-sub {
+  animation: ao-lift 0.7s var(--ease-sun) 0.85s both;
+}
+.ao-splash-bar {
+  transform-origin: left;
+  animation: ao-splash-bar 1.2s cubic-bezier(0.3, 0.6, 0.2, 1) 0.15s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --splash-delay: 0s;
+  }
+  .ao-rise,
+  .ao-cutout-rise,
+  .ao-banner-zoom,
+  .ao-lift,
+  .ao-drop,
+  .ao-nav-item,
+  .ao-splash-stage,
+  .ao-splash-mark,
+  .ao-splash-arc,
+  .ao-splash-ao,
+  .ao-splash-word,
+  .ao-splash-sub,
+  .ao-splash-bar {
+    animation: none;
+  }
+  .ao-splash {
+    animation: ao-splash-out 0.2s ease 0.5s forwards;
+  }
+}
+
+/*
+ * On-view fill (ui/motion/fill-text.tsx, ported from ACOB's AnimatedFillText): a solid brand-green
+ * block grows from the left behind the phrase. The words keep the paragraph's colour; the block
+ * shows the words again in the on-green colour (generated content, so copy-paste gets them once),
+ * and is uncovered from the left, so the colour change travels with the fill. Filled phrases stay on one line (nowrap), so they are kept short enough for a phone.
+ */
+/* Clip, not width: the block keeps its padding, so a 0 width would still leave a green sliver. */
+@keyframes ao-fill-left {
+  from {
+    clip-path: inset(0 100% 0 0 round 0.125rem);
+  }
+  to {
+    clip-path: inset(0 0 0 0 round 0.125rem);
+  }
+}
+.ao-fill {
+  position: relative;
+  display: inline-block;
+  padding: 0 0.3em;
+  margin: 0 0.05em;
+  white-space: nowrap;
+  line-height: 1.35;
+}
+.ao-fill::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  padding: 0 0.3em;
+  white-space: nowrap;
+  border-radius: 0.125rem;
+  clip-path: inset(0 100% 0 0 round 0.125rem);
+  background: var(--action);
+  color: var(--on-action);
+}
+.ao-fill[data-on]::after {
+  animation: ao-fill-left var(--fill-duration, 1.2s) ease-out forwards;
+}
+/* On the always-dark band: glow-green block, ink words, in both themes. */
+.bg-band .ao-fill::after {
+  background: var(--ao-glow);
+  color: var(--ao-ink);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ao-fill[data-on]::after {
+    clip-path: none;
+    animation: none;
+  }
+}
+
+/* Home photo strip (components/photo-strip.tsx): the row is doubled, so sliding it left by half
+   loops seamlessly. Slow on purpose; it pauses on hover or focus, and its ends fade out. */
+@keyframes ao-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.ao-strip {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+.ao-strip-track {
+  animation: ao-marquee 70s linear infinite;
+}
+.ao-strip:hover .ao-strip-track,
+.ao-strip:focus-within .ao-strip-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ao-strip {
+    overflow-x: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .ao-strip-track {
+    animation: none;
+    padding-inline: 1rem;
+  }
+  .ao-strip-track > [aria-hidden] {
+    display: none;
+  }
+}
+
+/* Cards lift on hover. Uses `translate`, not `transform`, so it composes with the transform
+   motion leaves inline after a reveal. Pointer devices only; off under reduced motion. */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .ao-card {
+    transition:
+      translate var(--dur) var(--ease-sun),
+      box-shadow var(--dur) var(--ease-sun),
+      border-color var(--dur);
+  }
+  .ao-card:hover {
+    translate: 0 -6px;
+    border-color: var(--line-strong);
+    box-shadow: 0 24px 48px -28px rgb(0 0 0 / 0.5);
+  }
+}
+
+/* Page-to-page progress bar (components/nav-progress.tsx) */
+.ao-progress {
+  transform-origin: left;
+  transform: scaleX(0);
+  opacity: 0;
+  pointer-events: none;
+}
+.ao-progress[data-state="loading"] {
+  opacity: 1;
+  animation: ao-progress-grow 8s cubic-bezier(0.1, 0.7, 0.2, 1) forwards;
+}
+.ao-progress[data-state="done"] {
+  transform: scaleX(1);
+  opacity: 0;
+  transition:
+    transform 0.2s ease,
+    opacity 0.35s ease 0.2s;
+}
+@keyframes ao-progress-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(0.9);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ao-progress[data-state="loading"] {
+    animation: none;
+    transform: scaleX(0.9);
+  }
+  .ao-progress[data-state="done"] {
+    transition: opacity 0.2s ease;
+  }
+}
+
+/* Without JavaScript nothing should stay hidden behind a reveal animation. */
+@media (scripting: none) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    clip-path: none !important;
+  }
+}
+
+@media (pointer: fine) {
+  html {
+    overscroll-behavior-y: none;
+  }
+}
+
+@media print {
+  header,
+  footer,
+  [data-print-hide] {
+    display: none !important;
+  }
+}

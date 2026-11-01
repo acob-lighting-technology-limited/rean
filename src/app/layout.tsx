@@ -1,0 +1,45 @@
+import type { Metadata, Viewport } from "next";
+import { Archivo } from "next/font/google";
+import { site } from "@/lib/site";
+import { themeInitScript } from "@/lib/theme";
+import { splashResetScript } from "@/lib/splash";
+import { Splash } from "@/components/splash";
+import "./globals.css";
+
+// One variable family for everything (~88KB): Archivo at normal width for body text, and set
+// semi-condensed via its width axis for headlines and big numbers. A second body family cost
+// another ~47KB, a real price on Nigerian mobile data for little visible gain.
+const archivo = Archivo({ variable: "--font-archivo", subsets: ["latin"], axes: ["wdth"], display: "swap" });
+
+export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
+  title: { default: site.name, template: `%s · ${site.name}` },
+  description: site.description,
+  applicationName: site.name,
+  openGraph: { type: "website", locale: "en_NG", siteName: site.name },
+  twitter: { card: "summary_large_image" },
+  // Pre-launch: keep the public preview out of search results (see app/robots.ts).
+  robots: { index: false, follow: false },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f4f4f5" },
+    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
+  ],
+};
+
+export default function RootLayout({ children }: LayoutProps<"/">) {
+  return (
+    // suppressHydrationWarning: the head script sets data-theme and --splash-delay on <html> outside React.
+    <html lang="en-NG" className={archivo.variable} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `${themeInitScript};${splashResetScript}` }} />
+      </head>
+      <body className="min-h-dvh">
+        <Splash />
+        {children}
+      </body>
+    </html>
+  );
+}
