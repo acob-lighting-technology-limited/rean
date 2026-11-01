@@ -1,19 +1,22 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { ImageResponse } from "next/og";
+import sharp from "sharp";
 
 export const ogSize = { width: 1200, height: 630 };
-export const ogContentType = "image/png";
+export const ogContentType = "image/jpeg";
 
 /**
  * Link-preview card (WhatsApp, LinkedIn, X). For most members this card is the first impression,
  * so it carries the name, the page's point and the portrait, and stays legible as a phone thumbnail.
+ * Served as JPEG: the PNG that ImageResponse draws is about 330 KB, and WhatsApp only shows the large
+ * preview for images under about 300 KB (above that it falls back to a small cropped thumbnail).
  */
 export async function renderOg({ eyebrow, title }: { eyebrow: string; title: string }) {
   const portrait = await readFile(path.join(process.cwd(), "public/images/portrait-standing.jpg"));
   const src = `data:image/jpeg;base64,${portrait.toString("base64")}`;
 
-  return new ImageResponse(
+  const png = new ImageResponse(
     (
       <div style={{ display: "flex", width: "100%", height: "100%", background: "#09090b", color: "#f4f4f5" }}>
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "64px 56px 56px 72px", width: 760 }}>
@@ -36,4 +39,6 @@ export async function renderOg({ eyebrow, title }: { eyebrow: string; title: str
     ),
     ogSize,
   );
+  const jpeg = await sharp(Buffer.from(await png.arrayBuffer())).jpeg({ quality: 82, mozjpeg: true }).toBuffer();
+  return new Response(new Uint8Array(jpeg), { headers: { "Content-Type": ogContentType } });
 }

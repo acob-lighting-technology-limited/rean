@@ -19,6 +19,7 @@
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "resend": "6.32.1",
+    "sharp": "^0.34.0",
     "tailwind-merge": "3.7.0",
     "zod": "4.6.5"
   },
@@ -29,7 +30,6 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.4.3",
-    "sharp": "^0.34.0",
     "tailwindcss": "4.3.3",
     "typescript": "^5"
   }
