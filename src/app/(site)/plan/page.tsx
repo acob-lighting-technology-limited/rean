@@ -13,7 +13,7 @@ import { pillars, preamble } from "@/content/plan";
 export const metadata: Metadata = {
   title: "The plan: 7 pillars for REAN",
   description:
-    "Advocacy, state electricity markets, partnerships, investment, inclusive membership, capacity building and digital visibility: the 7 pillars of Alexander Obiechina’s plan for REAN, with concrete actions for each.",
+    "Policy advocacy, the decentralised electricity market, strategic partnerships, investment and financial sustainability, inclusive membership, capacity development and data- and technology-driven leadership: the 7 pillars of Alexander Obiechina’s plan for REAN, with concrete actions for each.",
   alternates: { canonical: "/plan" },
 };
 

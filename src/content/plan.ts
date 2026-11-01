@@ -24,7 +24,7 @@ export type Pillar = {
 // double brackets in thesis and pledge100 mark phrases that get the on-view highlight (ui/motion/highlight.tsx).
 // [[double brackets]] in thesis and pledge100 mark phrases that get the on-view fill (ui/motion/fill-text.tsx).
 export const preamble = {
-  lead: "Nigeria stands at a historic crossroads in its power transition.",
+  lead: "Nigeria stands at a historic crossroads in its energy transition journey.",
   drivers: [
     { title: "Decentralised regulation", text: "The electricity sector has been decentralised to state regulators." },
     { title: "Rising generation costs", text: "The cost of fossil fuel generation keeps rising." },
@@ -39,7 +39,7 @@ export const pillars: Pillar[] = [
   {
     slug: "advocacy",
     number: 1,
-    title: "Advocacy & policy representation",
+    title: "Strengthen policy advocacy",
     label: "Advocacy",
     short: "A data-backed voice before ministries, regulators and customs.",
     commitment: "I will maintain an unyielding, data-backed advocacy agenda before federal ministries, state agencies and market regulators.",
@@ -55,8 +55,8 @@ export const pillars: Pillar[] = [
   {
     slug: "state-markets",
     number: 2,
-    title: "State & decentralised electricity markets",
-    label: "State markets",
+    title: "Enhance the decentralised electricity market",
+    label: "Electricity market",
     short: "One consultative voice across Nigeria’s state electricity markets.",
     commitment: "I will position REAN as the definitive consultative counterpart to State Electricity Regulatory Commissions and state energy ministries.",
     objective: "Coordinate renewable energy business interests across Nigeria’s state electricity markets under the decentralised legal regime.",
@@ -71,7 +71,7 @@ export const pillars: Pillar[] = [
   {
     slug: "partnerships",
     number: 3,
-    title: "Strategic partnerships & alliances",
+    title: "Improve strategic partnerships",
     label: "Partnerships",
     short: "Institutional alliances that open doors for members.",
     // Not in the manifesto: derived from the framework objective for this pillar.
@@ -86,7 +86,7 @@ export const pillars: Pillar[] = [
   {
     slug: "investment",
     number: 4,
-    title: "Investment & financial sustainability",
+    title: "Establish investment and financial sustainability",
     label: "Investment",
     short: "A deal-origination hub connecting bankable projects to capital.",
     commitment: "I will transform REAN into an active deal-origination hub, connecting bankable projects to local banks, DFIs and patient climate capital.",
@@ -101,7 +101,7 @@ export const pillars: Pillar[] = [
   {
     slug: "membership",
     number: 5,
-    title: "Membership & equitable inclusion",
+    title: "Drive inclusive membership",
     label: "Membership",
     short: "Every member enterprise, at every scale, with a real voice.",
     commitment: "I will build a genuinely democratic and transparent association where every member enterprise has an active voice and equal access to opportunities.",
@@ -116,8 +116,8 @@ export const pillars: Pillar[] = [
   {
     slug: "capacity",
     number: 6,
-    title: "Capacity, innovation & academic links",
-    label: "Capacity & skills",
+    title: "Strengthen capacity development",
+    label: "Capacity",
     short: "Skills, direct OEM access and a pipeline of young engineers.",
     commitment: "I will elevate domestic engineering and project finance capability, secure direct OEM technology partnerships and cultivate student talent.",
     objective: "Strengthen technical proficiency across the industry, widen access to modern technology and build an academic talent pipeline.",
@@ -131,8 +131,8 @@ export const pillars: Pillar[] = [
   {
     slug: "digital",
     number: 7,
-    title: "Digital, market data & visibility",
-    label: "Digital & data",
+    title: "Data- and technology-driven leadership",
+    label: "Data & technology",
     short: "Verified sector data and a portal members actually use.",
     commitment: "I will establish REAN as the authoritative digital information hub, publishing verified sector metrics and showcasing member milestones.",
     objective: "Make REAN the authoritative source of verified sector data and the place where member achievements are seen.",
@@ -267,7 +267,7 @@ export type Kpi = { area: string; cadence: string; indicators: string[] };
 /** Framework §3, "Key Performance Indicators". Targets (≥90%, ≥85%) are from the document. */
 export const kpis: Kpi[] = [
   {
-    area: "Advocacy & policy representation",
+    area: "Strengthen policy advocacy",
     cadence: "Quarterly / annual",
     indicators: [
       "Formal policy submissions and regulatory briefs delivered",
@@ -276,7 +276,7 @@ export const kpis: Kpi[] = [
     ],
   },
   {
-    area: "State electricity markets",
+    area: "Enhance the decentralised electricity market",
     cadence: "Quarterly",
     indicators: [
       "Consultative sessions held with SERCs and state energy boards",
@@ -285,12 +285,12 @@ export const kpis: Kpi[] = [
     ],
   },
   {
-    area: "Partnerships & alliances",
+    area: "Improve strategic partnerships",
     cadence: "Twice yearly",
     indicators: ["Institutional MoUs signed with DFIs, banks and agencies", "Co-funded initiatives and joint programmes launched", "Stakeholder calendar compliance — target ≥ 90%"],
   },
   {
-    area: "Investment & finance",
+    area: "Establish investment and financial sustainability",
     cadence: "Twice yearly / annual",
     indicators: [
       "Cumulative MW and capital value profiled in the pipeline",
@@ -299,17 +299,17 @@ export const kpis: Kpi[] = [
     ],
   },
   {
-    area: "Membership & inclusion",
+    area: "Drive inclusive membership",
     cadence: "Quarterly",
     indicators: ["Verified active corporate and individual members", "Annual retention and renewal rate — target ≥ 85%", "Share of startups, micro-enterprises and SMEs in leadership programmes"],
   },
   {
-    area: "Capacity & academia",
+    area: "Strengthen capacity development",
     cadence: "Twice yearly",
     indicators: ["Masterclasses delivered and trainees certified", "University MoUs signed and student chapters inaugurated", "OEM demonstration sessions and equipment access deals"],
   },
   {
-    area: "Digital visibility",
+    area: "Data- and technology-driven leadership",
     cadence: "Monthly / quarterly",
     indicators: ["Website visits and member directory profile searches", "Member Spotlight features published", "Media citations and reach of the Annual Impact Report"],
   },

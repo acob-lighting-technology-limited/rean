@@ -50,14 +50,14 @@ export type Figure = {
 
 /**
  * Track-record figures.
- * UNVERIFIED: 500+, 36 and 1,000+ come from the previous site, whose developer marked them
+ * UNVERIFIED: 500+ and 1,000+ come from the previous site, whose developer marked them
  * "sample: true — PLACEHOLDERS: replace them with verified figures before launch".
  * The campaign chose to show them until real figures arrive.
  */
 export const figures: Figure[] = [
   { value: 10, label: "Years leading ACOB", verified: true, note: "ACOB founded 2016 (acoblighting.com); 10 years in 2026." },
   { value: 500, suffix: "+", label: "Projects delivered", verified: false, note: "Previous site sample figure." },
-  { value: 36, label: "States reached", verified: false, note: "Previous site sample figure. Note: 36 is every state in Nigeria." },
+  { value: 15, label: "Years industry experience", verified: false, note: "Supplied by the campaign, 1 Nov 2026; replaces the sample 36 states reached." },
   { value: 1000, suffix: "+", label: "Jobs enabled", verified: false, note: "Previous site sample figure." },
 ];
 
