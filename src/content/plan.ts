@@ -83,6 +83,8 @@ export const pillars: Pillar[] = [
       "Formalise partnerships with development finance institutions, commercial banks and multilateral agencies.",
       "Link with international clean-energy trade associations to enable technology transfer.",
       "Keep an active executive stakeholder calendar, with a named owner and deliverables for every relationship.",
+      "Build sustainable partnerships with research and development institutes.",
+      "Consolidate REAN’s existing partnerships with stakeholders across the electricity value chain.",
     ],
   },
   {
@@ -114,7 +116,8 @@ export const pillars: Pillar[] = [
       "Guarantee transparent appointments and fair representation across committees, working groups and trade delegations.",
       "Encourage members to build consortiums and joint ventures so they can take on large, utility-scale projects.",
       "Run retention campaigns, regular feedback surveys and a dedicated member concierge desk.",
-      "Create a REAN Member CEO Platform with periodic events for member CEOs.",
+      "Create a REAN CEO Platform.",
+      "Conduct periodic impact assessments among REAN members.",
     ],
   },
   {
