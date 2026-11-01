@@ -57,7 +57,7 @@ export type Figure = {
 export const figures: Figure[] = [
   { value: 10, label: "Years leading ACOB", verified: true, note: "ACOB founded 2016 (acoblighting.com); 10 years in 2026." },
   { value: 500, suffix: "+", label: "Projects delivered", verified: false, note: "Previous site sample figure." },
-  { value: 15, label: "Years industry experience", verified: false, note: "Supplied by the campaign, 1 Nov 2026; replaces the sample 36 states reached." },
+  { value: 15, suffix: "+", label: "Years industry experience", verified: false, note: "Supplied by the campaign, 1 Nov 2026; replaces the sample 36 states reached." },
   { value: 1000, suffix: "+", label: "Jobs enabled", verified: false, note: "Previous site sample figure." },
 ];
 
