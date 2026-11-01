@@ -11,13 +11,14 @@ export const candidate = {
   fullName: "Alexander Chinedu Obiechina",
   role: "Founder & CEO, ACOB Lighting Technology Limited",
   /**
-   * UNVERIFIED: draft biography composed from public sources and the previous site.
-   * Needs Alexander's approval before launch.
+   * Biography supplied by the campaign, 1 Nov 2026 (wording tidied; claims as given).
    */
   bio: [
-    "Alexander Obiechina is the founder and Chief Executive Officer of ACOB Lighting Technology Limited, a renewable energy company he established in Abuja in 2016.",
-    "Under his leadership ACOB grew from large-scale LED street lighting, with rollouts across 23 states, into solar EPC and hybrid mini-grids from 2018, as an early partner of the Rural Electrification Agency’s pilot programme. Today its teams deliver productive-use solar systems that power markets, health centres and community facilities across Nigeria.",
-    "He has spoken on taking distributed renewables and mini-grids beyond pilots to commercial scale, and he is standing for President of REAN to build on the association’s achievements, strengthen its institutional capacity and work with members to advance the industry.",
+    "Alexander Obiechina is the founder and Chief Executive Officer of ACOB Lighting Technology Limited, a renewable energy company he established in Abuja in 2016. He holds an MBA, specialising in Product Development Management (PDM), from Cardiff Metropolitan University, United Kingdom, and is a 2019 Mandela Washington Fellow, a programme sponsored by the US Department of State.",
+    "Under his leadership ACOB grew from a large-scale LED street lighting infrastructure company, with rollouts across 23 states, into a solar EPC and renewable energy service company (RESCO), among the pioneers of mini-grid development in Nigeria. ACOB partnered with the Rural Electrification Agency at a very early stage to pilot the development and rollout of mini-grids in Nigeria. Today its teams deliver productive-use solar systems that power markets, health centres, community facilities and businesses across Nigeria.",
+    "ACOB remains one of the pioneer local renewable energy companies to access concessional debt in the capital market to scale decentralised renewable energy solutions (mini-grids). That growth has given young Nigerians internships, training and job placements in the renewable energy sector.",
+    "Alexander has built partnerships with development partners through the Nigeria Electrification Project (NEP), funded by the World Bank and the African Development Bank, and with GIZ under the Nigerian Energy Support Programme (NESP).",
+    "He has spoken on many platforms on taking distributed renewables and mini-grids beyond pilot scale, and on working with stakeholders in the sector towards a viable renewable energy market. He is standing for President of REAN to build on the association’s achievements, strengthen its institutional capacity and work with members to take the association to the next level.",
   ] as string[] | null,
   /**
    * UNVERIFIED: words attributed to Alexander, drafted from the previous site's vision statement
@@ -49,16 +50,14 @@ export type Figure = {
 };
 
 /**
- * Track-record figures.
- * UNVERIFIED: 500+ and 1,000+ come from the previous site, whose developer marked them
- * "sample: true — PLACEHOLDERS: replace them with verified figures before launch".
- * The campaign chose to show them until real figures arrive.
+ * Track-record figures, supplied by the campaign on 1 Nov 2026 (replacing the previous site's samples).
+ * Not independently verified: the campaign stands behind them.
  */
 export const figures: Figure[] = [
-  { value: 10, label: "Years leading ACOB", verified: true, note: "ACOB founded 2016 (acoblighting.com); 10 years in 2026." },
-  { value: 500, suffix: "+", label: "Projects delivered", verified: false, note: "Previous site sample figure." },
+  { value: 10, suffix: "+", label: "Years leading ACOB", verified: true, note: "ACOB founded 2016 (acoblighting.com); 10+ supplied by the campaign, 1 Nov 2026." },
+  { value: 100, suffix: "+", label: "Projects delivered", verified: false, note: "Supplied by the campaign, 1 Nov 2026; replaces the sample 500+." },
   { value: 15, suffix: "+", label: "Years industry experience", verified: false, note: "Supplied by the campaign, 1 Nov 2026; replaces the sample 36 states reached." },
-  { value: 1000, suffix: "+", label: "Jobs enabled", verified: false, note: "Previous site sample figure." },
+  { value: 5000, suffix: "+", label: "Jobs enabled", verified: false, note: "Supplied by the campaign, 1 Nov 2026; replaces the sample 1,000+." },
 ];
 
 export type Fact = { label: string; text: string; source?: { label: string; href: string } };
@@ -71,6 +70,15 @@ export const facts: Fact[] = [
     text: "Founded ACOB Lighting Technology Limited in 2016. The company is headquartered in Gwarinpa, Abuja.",
     source: { label: "acoblighting.com", href: "https://www.acoblighting.com/about/our-story" },
   },
+  // Education and fellowship: supplied by the campaign, 1 Nov 2026.
+  {
+    label: "Education",
+    text: "MBA, specialising in Product Development Management (PDM), Cardiff Metropolitan University, United Kingdom.",
+  },
+  {
+    label: "Fellowship",
+    text: "2019 Mandela Washington Fellow, a programme sponsored by the US Department of State.",
+  },
   {
     label: "Street lighting",
     text: "ACOB began with large-scale LED street lighting: rollout programmes across 23 states, and 25 kilometres of critical infrastructure maintained for the FCDA and state governments, from the National Stadium to the Airport City Gate.",
@@ -78,7 +86,7 @@ export const facts: Fact[] = [
   },
   {
     label: "Mini-grids",
-    text: "In 2018 ACOB moved into solar EPC and hybrid mini-grid development, as an early partner of the Rural Electrification Agency’s pilot programme.",
+    text: "ACOB moved into solar EPC and mini-grid development as a renewable energy service company (RESCO), partnering with the Rural Electrification Agency at a very early stage to pilot mini-grids in Nigeria.",
     source: { label: "ACOB: Our Story", href: "https://www.acoblighting.com/about/our-story" },
   },
   {
@@ -112,13 +120,19 @@ export const photos = {
   /* UNVERIFIED: same summit; also needs consent from the other people shown (handshake, group, colleagues). */
   aboutNative: { src: "/images/about-portrait.webp", width: 960, height: 1200, alt: "Alexander Obiechina smiling, arms folded, in a white kaftan and a patterned cap" },
   bannerPlan: { src: "/images/banner-plan.jpg", width: 2400, height: 1599, alt: "Alexander Obiechina speaking into a microphone on stage, his name and title on the screen behind him" },
-  banner100: { src: "/images/banner-100days.jpg", width: 2400, height: 1278, alt: "The panel on stage at the Nigeria Energy Leadership Summit, the session title on the screen" },
+  banner100: { src: "/images/banner-100days.jpg", width: 2400, height: 1599, alt: "Alexander Obiechina standing with the other panellists on stage at the Nigeria Energy Leadership Summit" },
   bannerAccountability: { src: "/images/banner-accountability.jpg", width: 2400, height: 1599, alt: "Alexander Obiechina seated with fellow panellists on stage, their names on the screen above" },
   bannerAbout: { src: "/images/banner-about.jpg", width: 2400, height: 1599, alt: "Alexander Obiechina laughing with a colleague in the audience" },
   bannerInvolved: { src: "/images/banner-involved.jpg", width: 2400, height: 1300, alt: "Members in the audience at the Nigeria Energy Leadership Summit" },
   stripNativeFull: { src: "/images/strip-native-full.jpg", width: 667, height: 1000, alt: "Alexander Obiechina in a white kaftan and cap at the summit photo wall" },
   stripSeatedMic: { src: "/images/strip-seated-mic.jpg", width: 667, height: 1000, alt: "Alexander Obiechina seated on stage with a microphone" },
   stripWave: { src: "/images/strip-wave.jpg", width: 761, height: 1000, alt: "Alexander Obiechina waving from his seat in the audience" },
-  stripGroup: { src: "/images/strip-group-stage.jpg", width: 1000, height: 616, alt: "Alexander Obiechina with the other panellists on stage" },
+  stripPanel: { src: "/images/strip-panel.jpg", width: 1000, height: 666, alt: "Alexander Obiechina seated with the panel on stage, the speakers' photos on the screen behind" },
   stripColleagues: { src: "/images/strip-colleagues.jpg", width: 1000, height: 667, alt: "Alexander Obiechina with two colleagues at the summit photo wall" },
+  stripConsult: { src: "/images/strip-consult.jpg", width: 1000, height: 722, alt: "Alexander Obiechina leaning in to talk with a delegate seated in the audience" },
+  stripBooth: { src: "/images/strip-booth.jpg", width: 1000, height: 667, alt: "Alexander Obiechina with three fellow delegates in the exhibition hall" },
+  stripPhotoWall: { src: "/images/strip-photo-wall.jpg", width: 1000, height: 667, alt: "Alexander Obiechina with three delegates at the summit photo wall" },
+  stripGreeting: { src: "/images/strip-greeting.jpg", width: 1000, height: 671, alt: "Alexander Obiechina greeting a fellow delegate in the hall" },
+  stripGuest: { src: "/images/strip-guest.jpg", width: 667, height: 1000, alt: "Alexander Obiechina with a delegate at the summit photo wall" },
+  stripPanelWide: { src: "/images/strip-panel-wide.jpg", width: 1000, height: 667, alt: "The panel in session on stage at the Nigeria Energy Leadership Summit" },
 } as const;

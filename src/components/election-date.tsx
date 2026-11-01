@@ -13,14 +13,20 @@ function subscribe(onChange: () => void) {
 }
 const daysLeft = () => Math.ceil((ELECTION - Date.now()) / DAY);
 
+/** Whole days until election day, counted in the browser only; null while prerendering. */
+export function useDaysLeft() {
+  return useSyncExternalStore(subscribe, daysLeft, () => null);
+}
+
 /**
  * "25 November 2026 · 24 days to go". The countdown is computed in the browser only,
  * so the prerendered page carries just the date and never a stale count.
+ * `countdown={false}` leaves the count out, where the CountdownBadge shows it instead.
  */
-export function ElectionDate({ className, style }: { className?: string; style?: React.CSSProperties }) {
-  const days = useSyncExternalStore(subscribe, daysLeft, () => null);
+export function ElectionDate({ className, style, countdown = true }: { className?: string; style?: React.CSSProperties; countdown?: boolean }) {
+  const days = useDaysLeft();
   const count =
-    days === null ? null : days > 1 ? `${days} days to go` : days === 1 ? "Tomorrow" : days === 0 ? "Today" : null;
+    !countdown || days === null ? null : days > 1 ? `${days} days to go` : days === 1 ? "Tomorrow" : days === 0 ? "Today" : null;
 
   return (
     <p className={className} style={style}>

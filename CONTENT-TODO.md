@@ -7,7 +7,7 @@ Each item is tagged `UNVERIFIED` (or `verified: false`) in the code. `npm run ch
 ## 1. Words attributed to Alexander (highest risk: he hasn't approved them)
 
 - [ ] **"Why I'm running" statement**, on the home page. Drafted from the previous site's vision line and the manifesto preamble. `src/content/candidate.ts` → `whyRunning`.
-- [ ] **Biography**, on the About page. Composed from acoblighting.com, a news summary and the previous site. `candidate.ts` → `bio`.
+- [x] **Biography**, on the About page. Supplied by the campaign, 1 Nov 2026 (MBA, Mandela Washington Fellowship, REA, NEP/GIZ, concessional debt); wording tidied. `candidate.ts` → `bio`.
 - [ ] **The 7 pillar commitments**, the plan's opening line and the 100-day pledge, rewritten from the manifesto's institutional voice into "I will…". Pillar 3 (partnerships) has no manifesto commitment, so it was derived from the framework objective. `src/content/plan.ts`.
 - [ ] **"My commitment to members"** (I will listen / connect / be clear / work with you), carried over from the previous site. `candidate.ts` → `memberCommitments`.
 - [ ] **Slogan** "Powering the industry. Empowering our members.", carried over from the previous site. `src/lib/site.ts` → `slogan`.
@@ -16,10 +16,10 @@ Each item is tagged `UNVERIFIED` (or `verified: false`) in the code. `npm run ch
 
 | Figure | Where | Status |
 |---|---|---|
-| **10** years leading ACOB | Home, About | Derived from ACOB's founding year, 2016 (acoblighting.com). Likely fine; confirm the wording. |
-| **500+** projects delivered | Home, About | ⚠ The previous site's developer marked this **"sample — replace with verified figures before launch"**. |
-| **36** states reached | Home, About | ⚠ Sample figure. 36 means *every* state in Nigeria, a strong claim, and ACOB's own "Our Story" page says its street-lighting rollouts covered **23** states. |
-| **1,000+** jobs enabled | Home, About | ⚠ Sample figure. |
+| **10+** years leading ACOB | Home, About | Supplied by the campaign, 1 Nov 2026 (ACOB founded 2016). |
+| **100+** projects delivered | Home, About | Supplied by the campaign, 1 Nov 2026 (replaces the sample 500+). |
+| **15+** years industry experience | Home, About | Supplied by the campaign, 1 Nov 2026 (replaces the sample 36 states). |
+| **5,000+** jobs enabled | Home, About | Supplied by the campaign, 1 Nov 2026 (replaces the sample 1,000+). |
 | **23 states** of LED street-lighting rollouts; **25 km** of infrastructure maintained | About, "On the record" and bio | ✅ From ACOB's published "Our Story" page (1 Nov 2026). The Bayan Fada (1,350 people) and Nasarawa (5 NEP sites) items were removed at the campaign's request. |
 | ≥85% retention, ≥90% stakeholder-calendar targets; all day ranges and phases | Plan pages | ✅ From the supplied framework PDF. |
 

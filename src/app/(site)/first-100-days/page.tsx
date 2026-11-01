@@ -25,6 +25,7 @@ export default function First100DaysPage() {
         title="Momentum from day one."
         lede="8 foundational priorities, each with a start and finish date, ending in a published progress review on day 100."
         photo={photos.banner100}
+        photoPosition="center 35%"
       />
 
       <Container className="py-16 sm:py-20">

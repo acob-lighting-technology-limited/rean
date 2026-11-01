@@ -244,6 +244,16 @@ li {
 .ao-lift {
   animation: ao-lift 0.9s var(--ease-sun) calc(0.3s + var(--d, 0ms) + var(--splash-delay)) both;
 }
+/* Gentle bob for floating badges (components/countdown-badge.tsx); on an inner element, so it
+   doesn't fight the outer .ao-lift entrance. */
+@keyframes ao-float {
+  50% {
+    transform: translateY(-8px);
+  }
+}
+.ao-float {
+  animation: ao-float 5s ease-in-out infinite;
+}
 /* Header: slides down once the curtain has cleared the top of the screen (it clears the top last),
    then each link drops in after it, one by one. */
 @keyframes ao-nav-in {
@@ -352,7 +362,8 @@ li {
   .ao-splash-ao,
   .ao-splash-word,
   .ao-splash-sub,
-  .ao-splash-bar {
+  .ao-splash-bar,
+  .ao-float {
     animation: none;
   }
   .ao-splash {
@@ -409,8 +420,9 @@ li {
   }
 }
 
-/* Home photo strip (components/photo-strip.tsx): the row is doubled, so sliding it left by half
-   loops seamlessly. Slow on purpose; it pauses on hover or focus, and its ends fade out. */
+/* Home photo strip (components/photo-strip.tsx): each row is doubled, so sliding it left by half
+   loops seamlessly; the second row runs the same loop backwards, so the rows drift in opposite
+   directions. Slow on purpose; a row pauses on hover or focus, and its ends fade out. */
 @keyframes ao-marquee {
   to {
     transform: translateX(-50%);
@@ -422,6 +434,9 @@ li {
 }
 .ao-strip-track {
   animation: ao-marquee 70s linear infinite;
+}
+.ao-strip-reverse .ao-strip-track {
+  animation-direction: reverse;
 }
 .ao-strip:hover .ao-strip-track,
 .ao-strip:focus-within .ao-strip-track {
