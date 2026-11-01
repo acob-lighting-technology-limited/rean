@@ -6,7 +6,6 @@ import { RiseText } from "@/ui/motion/rise-text";
 import { FilledText } from "@/ui/motion/fill-text";
 import { Reveal, Stagger, StaggerItem, ImageReveal } from "@/ui/motion/reveal";
 import { Eyebrow, SectionHeading } from "@/components/section-heading";
-import { CountdownBadge } from "@/components/countdown-badge";
 import { ElectionDate } from "@/components/election-date";
 import { HeroPortrait } from "@/components/hero-portrait";
 import { PhotoStrip } from "@/components/photo-strip";
@@ -31,8 +30,6 @@ export default function HomePage() {
       <section className="relative flex flex-col overflow-hidden lg:flex-row lg:items-center lg:min-h-[calc(100svh-4rem)]">
         <div className="relative mx-auto w-full max-w-[520px] pt-2 lg:pointer-events-none lg:absolute lg:right-0 lg:bottom-0 lg:mx-0 lg:w-[min(52%,calc(100svh-4rem))] lg:max-w-[880px] lg:p-0">
           <HeroPortrait />
-          {/* Floats over the portrait's faded lower-left corner. */}
-          <CountdownBadge className="absolute bottom-6 left-4 z-10 lg:bottom-[16%] lg:left-[2%]" />
         </div>
         <Container className="relative z-10 pt-6 pb-16 sm:pt-10 lg:py-[clamp(2.5rem,8svh,6rem)]">
           <div className="lg:max-w-[48%]">

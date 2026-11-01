@@ -1,5 +1,6 @@
 import { MotionProvider } from "@/ui/motion/motion-provider";
 import { ShareFab } from "@/components/share";
+import { CountdownBadge } from "@/components/countdown-badge";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { PersonJsonLd } from "@/components/json-ld";
@@ -23,6 +24,7 @@ export default function SiteLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <ShareFab />
+        <CountdownBadge />
         <SiteFooter />
       </div>
       <PersonJsonLd />

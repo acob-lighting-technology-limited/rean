@@ -244,16 +244,6 @@ li {
 .ao-lift {
   animation: ao-lift 0.9s var(--ease-sun) calc(0.3s + var(--d, 0ms) + var(--splash-delay)) both;
 }
-/* Gentle bob for floating badges (components/countdown-badge.tsx); on an inner element, so it
-   doesn't fight the outer .ao-lift entrance. */
-@keyframes ao-float {
-  50% {
-    transform: translateY(-8px);
-  }
-}
-.ao-float {
-  animation: ao-float 5s ease-in-out infinite;
-}
 /* Header: slides down once the curtain has cleared the top of the screen (it clears the top last),
    then each link drops in after it, one by one. */
 @keyframes ao-nav-in {
@@ -362,8 +352,7 @@ li {
   .ao-splash-ao,
   .ao-splash-word,
   .ao-splash-sub,
-  .ao-splash-bar,
-  .ao-float {
+  .ao-splash-bar {
     animation: none;
   }
   .ao-splash {
