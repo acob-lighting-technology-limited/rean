@@ -22,12 +22,14 @@ export default function HomePage() {
     <>
       {/* Hero */}
       {/* Phones: portrait on top, full width. From lg: the text sits left over a near full-screen hero
-          and the portrait is a large figure in the bottom-right corner, the jacket meeting the band below. */}
+          and the portrait is a large figure in the bottom-right corner, the jacket meeting the band below.
+          The name and spacing scale with screen height too, so the buttons stay in view on short laptop
+          screens (for example 1920x1080 at 125% Windows scaling, about 1536x730 in the browser). */}
       <section className="relative flex flex-col overflow-hidden lg:flex-row lg:items-center lg:min-h-[calc(100svh-4rem)]">
-        <div className="mx-auto w-full max-w-[520px] pt-2 lg:pointer-events-none lg:absolute lg:right-0 lg:bottom-0 lg:mx-0 lg:w-[52%] lg:max-w-[880px] lg:p-0">
+        <div className="mx-auto w-full max-w-[520px] pt-2 lg:pointer-events-none lg:absolute lg:right-0 lg:bottom-0 lg:mx-0 lg:w-[min(52%,calc((100svh-4rem)*0.92))] lg:max-w-[880px] lg:p-0">
           <HeroPortrait />
         </div>
-        <Container className="relative z-10 pt-6 pb-16 sm:pt-10 lg:py-24">
+        <Container className="relative z-10 pt-6 pb-16 sm:pt-10 lg:py-[clamp(2.5rem,8svh,6rem)]">
           <div className="lg:max-w-[48%]">
             <Eyebrow className="ao-lift" style={{ "--d": "-150ms" } as React.CSSProperties}>
               Candidate for {election.office} · {election.short} {election.term}
@@ -35,14 +37,14 @@ export default function HomePage() {
             <RiseText
               text={candidate.name}
               translate="no"
-              className="font-display mt-4 text-[clamp(3.1rem,10vw,6.75rem)] sm:mt-6 leading-[0.92] font-extrabold tracking-[-0.035em]"
+              className="font-display mt-4 text-[clamp(3.1rem,10vw,6.75rem)] sm:mt-6 lg:text-[clamp(3.5rem,min(6.2vw,11.5svh),6.75rem)] [@media(min-width:1024px)_and_(max-height:820px)]:mt-4 leading-[0.92] font-extrabold tracking-[-0.035em]"
             />
             <p className="ao-lift font-display mt-4 text-xl font-semibold text-accent-text sm:text-2xl">{site.slogan}</p>
-            <p className="ao-lift mt-4 max-w-xl text-lg leading-relaxed text-muted sm:text-xl" style={{ "--d": "150ms" } as React.CSSProperties}>
+            <p className="ao-lift mt-4 max-w-xl text-lg leading-relaxed text-muted sm:text-xl [@media(min-width:1024px)_and_(max-height:820px)]:text-lg" style={{ "--d": "150ms" } as React.CSSProperties}>
               A plan to make the Renewable Energy Association of Nigeria defend its members, lead in the state electricity markets and bring capital to their projects.
             </p>
             <ElectionDate className="ao-lift mt-6 text-[15px]" style={{ "--d": "260ms" } as React.CSSProperties} />
-            <div className="ao-lift mt-8 flex flex-wrap gap-3" style={{ "--d": "370ms" } as React.CSSProperties}>
+            <div className="ao-lift mt-8 flex flex-wrap gap-3 [@media(min-width:1024px)_and_(max-height:820px)]:mt-6" style={{ "--d": "370ms" } as React.CSSProperties}>
               <ButtonLink href="/plan" size="lg">
                 Read the plan <Arrow />
               </ButtonLink>
