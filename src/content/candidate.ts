@@ -54,9 +54,9 @@ export type Figure = {
  * Not independently verified: the campaign stands behind them.
  */
 export const figures: Figure[] = [
+  { value: 15, suffix: "+", label: "Years industry experience", verified: false, note: "Supplied by the campaign, 1 Nov 2026; replaces the sample 36 states reached." },
   { value: 10, suffix: "+", label: "Years leading ACOB", verified: true, note: "ACOB founded 2016 (acoblighting.com); 10+ supplied by the campaign, 1 Nov 2026." },
   { value: 100, suffix: "+", label: "Projects delivered", verified: false, note: "Supplied by the campaign, 1 Nov 2026; replaces the sample 500+." },
-  { value: 15, suffix: "+", label: "Years industry experience", verified: false, note: "Supplied by the campaign, 1 Nov 2026; replaces the sample 36 states reached." },
   { value: 5000, suffix: "+", label: "Jobs enabled", verified: false, note: "Supplied by the campaign, 1 Nov 2026; replaces the sample 1,000+." },
 ];
 

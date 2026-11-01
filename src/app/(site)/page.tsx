@@ -25,9 +25,11 @@ export default function HomePage() {
       {/* Phones: portrait on top, full width. From lg: the text sits left over a near full-screen hero
           and the portrait is a large figure in the bottom-right corner, the jacket meeting the band below.
           The name and spacing scale with screen height too, so the buttons stay in view on short laptop
-          screens (for example 1920x1080 at 125% Windows scaling, about 1536x730 in the browser). */}
+          screens (for example 1920x1080 at 125% Windows scaling, about 1536x730 in the browser). The
+          square portrait is capped at the hero's height, so it is as big as fits with the head clear of the
+          header. */}
       <section className="relative flex flex-col overflow-hidden lg:flex-row lg:items-center lg:min-h-[calc(100svh-4rem)]">
-        <div className="relative mx-auto w-full max-w-[520px] pt-2 lg:pointer-events-none lg:absolute lg:right-0 lg:bottom-0 lg:mx-0 lg:w-[min(52%,calc((100svh-4rem)*0.92))] lg:max-w-[880px] lg:p-0">
+        <div className="relative mx-auto w-full max-w-[520px] pt-2 lg:pointer-events-none lg:absolute lg:right-0 lg:bottom-0 lg:mx-0 lg:w-[min(52%,calc(100svh-4rem))] lg:max-w-[880px] lg:p-0">
           <HeroPortrait />
           {/* Floats over the portrait's faded lower-left corner. */}
           <CountdownBadge className="absolute bottom-6 left-4 z-10 lg:bottom-[16%] lg:left-[2%]" />
