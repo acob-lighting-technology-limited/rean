@@ -39,7 +39,7 @@ export const pillars: Pillar[] = [
   {
     slug: "advocacy",
     number: 1,
-    title: "Strengthen policy advocacy",
+    title: "Policy advocacy",
     label: "Advocacy",
     short: "A data-backed voice before ministries, regulators and customs.",
     commitment: "I will maintain an unyielding, data-backed advocacy agenda before federal ministries, state agencies and market regulators.",
@@ -55,13 +55,13 @@ export const pillars: Pillar[] = [
   {
     slug: "state-markets",
     number: 2,
-    title: "Enhance the decentralised electricity market",
+    title: "Decentralised electricity market",
     label: "Electricity market",
     short: "One consultative voice across Nigeria’s state electricity markets.",
     commitment: "I will position REAN as the definitive consultative counterpart to State Electricity Regulatory Commissions and state energy ministries.",
     objective: "Coordinate renewable energy business interests across Nigeria’s state electricity markets under the decentralised legal regime.",
     actions: [
-      "Engage State Electricity Regulatory Commissions (SERCs) and state energy ministries across all geopolitical zones.",
+      "Engage State Electricity Regulatory Commissions (SERCs) and state energy ministries across all states.",
       "Push for harmonised, predictable licensing and light-handed compliance, ending fragmented licences, tariff distortions and double taxation.",
       "Protect members from arbitrary sub-national levies, duplicate permits and municipal operating obstacles.",
       "Form a Decentralised Electricity Market Working Group of mini-grid developers, C&I operators and legal specialists.",
@@ -71,7 +71,7 @@ export const pillars: Pillar[] = [
   {
     slug: "partnerships",
     number: 3,
-    title: "Improve strategic partnerships",
+    title: "Strategic partnership",
     label: "Partnerships",
     short: "Institutional alliances that open doors for members.",
     // Not in the manifesto: derived from the framework objective for this pillar.
@@ -86,22 +86,23 @@ export const pillars: Pillar[] = [
   {
     slug: "investment",
     number: 4,
-    title: "Establish investment and financial sustainability",
+    title: "Investment and financial sustainability",
     label: "Investment",
     short: "A deal-origination hub connecting bankable projects to capital.",
     commitment: "I will transform REAN into an active deal-origination hub, connecting bankable projects to local banks, DFIs and patient climate capital.",
     objective: "Mobilise catalytic capital, project finance and commercial credit, while building long-term financial resilience for the association.",
     actions: [
       "Build a verified pipeline database of bankable member projects: MW capacity, capex, technology and stage.",
-      "Convene an annual REAN Clean Energy Investment Forum for developers, local banks, private equity and impact funds.",
-      "Work with partner DFIs on local-currency debt, credit de-risking and blended finance.",
-      "Secure REAN’s own finances through transaction matchmaking, programme fees and diversified revenue.",
+      "Convene an annual REAN Clean Energy Investment Forum bringing together development partners, local and foreign financiers and impact fund administrators.",
+      "Work and partner with DFIs on local-currency debt, credit de-risking and blended finance instruments.",
+      "Secure REAN’s financial sustainability through conference fees, programme fees, grants and sponsorship.",
+      "Identify viable investment opportunities that will boost REAN’s financial sustainability.",
     ],
   },
   {
     slug: "membership",
     number: 5,
-    title: "Drive inclusive membership",
+    title: "Inclusive membership",
     label: "Membership",
     short: "Every member enterprise, at every scale, with a real voice.",
     commitment: "I will build a genuinely democratic and transparent association where every member enterprise has an active voice and equal access to opportunities.",
@@ -116,7 +117,7 @@ export const pillars: Pillar[] = [
   {
     slug: "capacity",
     number: 6,
-    title: "Strengthen capacity development",
+    title: "Capacity development",
     label: "Capacity",
     short: "Skills, direct OEM access and a pipeline of young engineers.",
     commitment: "I will elevate domestic engineering and project finance capability, secure direct OEM technology partnerships and cultivate student talent.",
@@ -267,7 +268,7 @@ export type Kpi = { area: string; cadence: string; indicators: string[] };
 /** Framework §3, "Key Performance Indicators". Targets (≥90%, ≥85%) are from the document. */
 export const kpis: Kpi[] = [
   {
-    area: "Strengthen policy advocacy",
+    area: "Policy advocacy",
     cadence: "Quarterly / annual",
     indicators: [
       "Formal policy submissions and regulatory briefs delivered",
@@ -276,7 +277,7 @@ export const kpis: Kpi[] = [
     ],
   },
   {
-    area: "Enhance the decentralised electricity market",
+    area: "Decentralised electricity market",
     cadence: "Quarterly",
     indicators: [
       "Consultative sessions held with SERCs and state energy boards",
@@ -285,12 +286,12 @@ export const kpis: Kpi[] = [
     ],
   },
   {
-    area: "Improve strategic partnerships",
+    area: "Strategic partnership",
     cadence: "Twice yearly",
     indicators: ["Institutional MoUs signed with DFIs, banks and agencies", "Co-funded initiatives and joint programmes launched", "Stakeholder calendar compliance — target ≥ 90%"],
   },
   {
-    area: "Establish investment and financial sustainability",
+    area: "Investment and financial sustainability",
     cadence: "Twice yearly / annual",
     indicators: [
       "Cumulative MW and capital value profiled in the pipeline",
@@ -299,12 +300,12 @@ export const kpis: Kpi[] = [
     ],
   },
   {
-    area: "Drive inclusive membership",
+    area: "Inclusive membership",
     cadence: "Quarterly",
     indicators: ["Verified active corporate and individual members", "Annual retention and renewal rate — target ≥ 85%", "Share of startups, micro-enterprises and SMEs in leadership programmes"],
   },
   {
-    area: "Strengthen capacity development",
+    area: "Capacity development",
     cadence: "Twice yearly",
     indicators: ["Masterclasses delivered and trainees certified", "University MoUs signed and student chapters inaugurated", "OEM demonstration sessions and equipment access deals"],
   },
