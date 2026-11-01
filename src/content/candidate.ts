@@ -110,7 +110,7 @@ export const photos = {
   },
   summitAudience: { src: "/images/summit-audience.jpg", width: 1800, height: 1200, alt: "Audience watching a panel at the Nigeria Energy Leadership Summit" },
   /* UNVERIFIED: same summit; also needs consent from the other people shown (handshake, group, colleagues). */
-  aboutNative: { src: "/images/about-native.jpg", width: 720, height: 1080, alt: "Alexander Obiechina in a white kaftan and cap, listening intently in the audience" },
+  aboutNative: { src: "/images/about-portrait.webp", width: 960, height: 1200, alt: "Alexander Obiechina smiling, arms folded, in a white kaftan and a patterned cap" },
   bannerPlan: { src: "/images/banner-plan.jpg", width: 2400, height: 1599, alt: "Alexander Obiechina speaking into a microphone on stage, his name and title on the screen behind him" },
   banner100: { src: "/images/banner-100days.jpg", width: 2400, height: 1278, alt: "The panel on stage at the Nigeria Energy Leadership Summit, the session title on the screen" },
   bannerAccountability: { src: "/images/banner-accountability.jpg", width: 2400, height: 1599, alt: "Alexander Obiechina seated with fellow panellists on stage, their names on the screen above" },

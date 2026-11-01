@@ -24,8 +24,8 @@ export default function AboutPage() {
       <section aria-labelledby="bio">
         <Container className="grid gap-12 py-16 sm:py-20 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
           <Reveal className="lg:sticky lg:top-24 lg:self-start">
-            {/* Native attire, to show a different side from the suit portraits elsewhere. A clean
-                rounded frame, cropped on him, since the event background is too busy to cut out. */}
+            {/* Native attire, to show a different side from the suit portraits elsewhere. A studio portrait
+                kept on its plain cream backdrop inside a rounded frame (960x1200 WebP, 2x the 480px slot). */}
             <ImageReveal className="overflow-hidden rounded-[var(--radius-lg)] bg-surface-2">
               <Image src={photos.aboutNative.src} alt={photos.aboutNative.alt} width={photos.aboutNative.width} height={photos.aboutNative.height} sizes="(min-width: 1024px) 480px, 92vw" className="aspect-[4/5] w-full object-cover object-top" />
             </ImageReveal>
