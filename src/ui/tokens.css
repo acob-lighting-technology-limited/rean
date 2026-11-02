@@ -3,7 +3,7 @@
  * from the previous site (brand green #008000, zinc-100 / zinc-950 grounds).
  *   1. Primitives  (--ao-*): raw values
  *   2. Semantic    (--bg, --fg, --accent…): what components use
- *   3. Theme       (prefers-color-scheme or the header toggle): remaps semantic tokens; light is the default
+ *   3. Theme       (the header toggle): remaps semantic tokens; light is the default for everyone
  *
  * Contrast (WCAG 2.2), measured on each theme's ground:
  *   light  fg 18.1:1 · muted 7.0:1 · accent-text 5.8:1 (5.0:1 on surface-2) · white on green button 5.1:1
@@ -83,41 +83,10 @@
 }
 
 /*
- * 3. Dark theme: follows the device setting unless the visitor picked one with the
- *    header toggle (data-theme on <html>, set before paint in app/layout.tsx).
- *    The two dark blocks below must stay identical.
+ * 3. Dark theme: only when the visitor picks it with the header toggle (data-theme on <html>,
+ *    saved in localStorage and set before paint in app/layout.tsx). Everyone else gets light,
+ *    whatever their device setting (campaign decision, 2 Nov 2026).
  */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --scheme: dark;
-    --bg: var(--ao-ink);
-    --surface: var(--ao-ink-2);
-    --surface-2: #27272a; /* zinc-800 */
-    --fg: var(--ao-paper);
-    --muted: #a1a1aa;
-    --line: rgb(244 244 245 / 0.1);
-    --line-strong: rgb(244 244 245 / 0.2);
-    --accent: var(--ao-glow);
-    --accent-text: var(--ao-glow);
-    --gold: var(--ao-gold-bright);
-    --gold-text: var(--ao-gold-bright);
-    --action: var(--ao-glow);
-    --action-hover: var(--ao-glow-soft);
-    --on-action: var(--ao-ink);
-    --focus: var(--ao-glow);
-    --danger: #f28b82;
-    --band: #000000;
-    --band-2: var(--ao-ink-2);
-    --scrollbar-thumb: var(--ao-green);
-    --scrollbar-thumb-hover: var(--ao-glow-soft);
-    --splash-bg: var(--band);
-    --splash-fg: var(--ao-paper);
-    --splash-accent: var(--ao-glow);
-    --splash-line: rgb(244 244 245 / 0.14);
-    --splash-edge: 0 2px 0 0 rgb(57 208 87 / 0.6), 0 1.25rem 3rem -0.5rem rgb(57 208 87 / 0.16);
-  }
-}
-
 :root[data-theme="dark"] {
   --scheme: dark;
   --bg: var(--ao-ink);

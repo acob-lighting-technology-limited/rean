@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo } from "next/font/google";
 import { site } from "@/lib/site";
-import { themeInitScript } from "@/lib/theme";
+import { THEME_COLOR, themeInitScript } from "@/lib/theme";
 import { splashResetScript } from "@/lib/splash";
 import { Splash } from "@/components/splash";
 import "./globals.css";
@@ -22,10 +22,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f4f4f5" },
-    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
-  ],
+  // Light by default; lib/theme.ts switches it when the visitor picks dark.
+  themeColor: THEME_COLOR.light,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

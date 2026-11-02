@@ -98,16 +98,6 @@ header[data-tone="on-dark"] .theme-toggle {
   opacity: 1;
   transform: none;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .theme-icon-sun {
-    opacity: 0;
-    transform: scale(0.5) rotate(-90deg);
-  }
-  :root:not([data-theme="light"]) .theme-icon-moon {
-    opacity: 1;
-    transform: none;
-  }
-}
 
 body {
   background: var(--bg);

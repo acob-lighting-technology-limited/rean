@@ -1,19 +1,19 @@
 "use client";
 
 import { Moon, Sun } from "lucide-react";
-import { THEME_STORAGE_KEY } from "@/lib/theme";
+import { THEME_COLOR, THEME_STORAGE_KEY } from "@/lib/theme";
 
 /**
- * Light/dark switch. With no saved choice the site follows the device setting; the first click
- * pins the opposite of whatever is showing. Icons swap in CSS (globals.css), so the server and
- * client render the same markup.
+ * Light/dark switch. The site opens in light for everyone; a click switches theme and the choice
+ * is saved (localStorage), so it sticks on every page and on later visits. The browser bar colour
+ * follows. Icons swap in CSS (globals.css), so the server and client render the same markup.
  */
 export function ThemeToggle() {
   function toggle() {
     const root = document.documentElement;
-    const current = root.dataset.theme ?? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-    const next = current === "dark" ? "light" : "dark";
+    const next = root.dataset.theme === "dark" ? "light" : "dark";
     root.dataset.theme = next;
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", THEME_COLOR[next]);
     try {
       localStorage.setItem(THEME_STORAGE_KEY, next);
     } catch {
