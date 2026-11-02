@@ -18,8 +18,7 @@ export const metadata: Metadata = {
   applicationName: site.name,
   openGraph: { type: "website", locale: "en_NG", siteName: site.name },
   twitter: { card: "summary_large_image" },
-  // Pre-launch: keep the public preview out of search results (see app/robots.ts).
-  robots: { index: false, follow: false },
+  robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {

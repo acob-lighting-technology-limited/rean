@@ -258,6 +258,12 @@ li {
 .ao-nav-item {
   animation: ao-nav-in 0.6s var(--ease-sun) calc(1s + var(--i, 0) * 120ms + var(--splash-delay)) both;
 }
+/* Below lg the nav links live in the menu, so the theme and menu buttons arrive with the logo. */
+@media (width < 64rem) {
+  .ao-nav-actions {
+    animation: none;
+  }
+}
 
 /*
  * Loading screen (components/splash.tsx). Build: mark pops in and its arc draws (0–1.05s), the name

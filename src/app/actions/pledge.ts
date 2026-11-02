@@ -2,10 +2,11 @@
 
 import { Resend } from "resend";
 import { formatPledge, intentLabel, pledgeSchema, type PledgeState } from "@/lib/pledge";
+import { site } from "@/lib/site";
 
 /**
  * Receives pledges of support and questions.
- * Delivery: email via Resend when RESEND_API_KEY, PLEDGE_TO_EMAIL and PLEDGE_FROM_EMAIL are set.
+ * Delivery: email via Resend once RESEND_API_KEY is set, to site.pledgeTo from site.pledgeFrom.
  * Until then the form says online submissions are not live, so nobody believes a message
  * was sent when it wasn't. Every non-success state returns the submitted values, because
  * React resets the form after an action and people must not lose what they typed.
@@ -27,14 +28,14 @@ export async function submitPledge(_prev: PledgeState, formData: FormData): Prom
   }
 
   const pledge = parsed.data;
-  const { RESEND_API_KEY, PLEDGE_TO_EMAIL, PLEDGE_FROM_EMAIL } = process.env;
-  if (!RESEND_API_KEY || !PLEDGE_TO_EMAIL || !PLEDGE_FROM_EMAIL) return { status: "unconfigured", values: raw, at: Date.now() };
+  const { RESEND_API_KEY } = process.env;
+  if (!RESEND_API_KEY || !site.pledgeTo || !site.pledgeFrom) return { status: "unconfigured", values: raw, at: Date.now() };
 
   try {
     const resend = new Resend(RESEND_API_KEY);
     const { error } = await resend.emails.send({
-      from: PLEDGE_FROM_EMAIL,
-      to: PLEDGE_TO_EMAIL.split(",").map((s) => s.trim()),
+      from: site.pledgeFrom,
+      to: site.pledgeTo.split(",").map((s) => s.trim()),
       replyTo: pledge.email,
       subject: `${intentLabel[pledge.intent]} · ${pledge.name}${pledge.organisation ? ` · ${pledge.organisation}` : ""}`,
       text: formatPledge(pledge),

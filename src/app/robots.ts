@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
 import { site } from "@/lib/site";
 
-// UNVERIFIED: search engines are blocked while the preview carries unapproved content. Restore
-// `allow: "/"` (and drop `robots` in app/layout.tsx) when Alexander signs off and the site launches.
+// Open to search engines since 2 Nov 2026, at the campaign's request. To hide the site again, set
+// `disallow: "/"` here and `robots: { index: false, follow: false }` in app/layout.tsx.
 export default function robots(): MetadataRoute.Robots {
-  return { rules: [{ userAgent: "*", disallow: "/" }], sitemap: `${site.url}/sitemap.xml` };
+  return { rules: [{ userAgent: "*", allow: "/" }], sitemap: `${site.url}/sitemap.xml` };
 }

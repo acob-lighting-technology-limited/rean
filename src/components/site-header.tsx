@@ -1,11 +1,13 @@
 "use client";
 
+import { AnimatePresence, m } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/ui/lib/cn";
+import { easeSun } from "@/ui/motion/easing";
 import { buttonClasses } from "@/ui/primitives/button";
-import { nav } from "@/lib/site";
+import { nav, whatsappChatHref } from "@/lib/site";
 import { BrandMark } from "./brand-mark";
 import { ThemeToggle } from "./theme-toggle";
 
@@ -21,10 +23,18 @@ import { ThemeToggle } from "./theme-toggle";
  *   but hidden (display: none) for instant back navigation, and its banner must not turn the links
  *   white over a light page.
  * On a full page load it drops in as the loading curtain clears, links following in turn
- * (.ao-drop, .ao-nav-item in globals.css). On phones the menu is a full-screen sheet: Escape closes
- * it, focus moves into it and back to the toggle, the page behind stops scrolling, and any route
- * change closes it (the open state is tied to the path it was opened on).
+ * (.ao-drop, .ao-nav-item in globals.css); below lg, where the links are in the menu, the theme and
+ * menu buttons arrive with the logo instead (.ao-nav-actions).
+ * On phones the menu is a full-screen sheet, ported from the Vertex Electric site: the two-line
+ * toggle turns into an X, the sheet wipes down from under the header, and its numbered links slide
+ * up one by one (reversed on close). Escape closes it, focus moves into it and back to the toggle,
+ * the page behind stops scrolling, and any route change closes it (the open state is tied to the
+ * path it was opened on).
  */
+/** Vertex's menu wipe: slow in and out, so the sheet reads as a curtain. */
+const WIPE = [0.76, 0, 0.24, 1] as const;
+const chatHref = whatsappChatHref("Hello Alexander, I saw your plan for REAN and would like to ask a question.");
+
 export function SiteHeader() {
   const pathname = usePathname();
   const [openOn, setOpenOn] = useState<string | null>(null);
@@ -125,7 +135,7 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="ao-nav-item flex items-center gap-2" style={{ "--i": nav.length } as React.CSSProperties}>
+        <div className="ao-nav-item ao-nav-actions flex items-center gap-2" style={{ "--i": nav.length } as React.CSSProperties}>
           <Link href="/get-involved" className={cn(buttonClasses(), "hidden sm:inline-flex")}>
             Get involved
           </Link>
@@ -133,50 +143,91 @@ export function SiteHeader() {
           <button
             ref={toggleRef}
             type="button"
-            className={cn("inline-flex size-11 items-center justify-center rounded-full border transition-colors duration-500 lg:hidden", onDark ? "border-white/40 text-white" : "border-line-strong")}
+            className={cn("relative inline-flex size-11 items-center justify-center rounded-full border transition-colors duration-500 lg:hidden", onDark ? "border-white/40 text-white" : "border-line-strong")}
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? "Close menu" : "Open menu"}
             onClick={() => setOpenOn(open ? null : pathname)}
           >
-            <span aria-hidden className="relative block h-3 w-5">
-              <span className={cn("absolute inset-x-0 top-0 h-0.5 rounded bg-current transition-transform duration-(--dur)", open && "translate-y-[5px] rotate-45")} />
-              <span className={cn("absolute inset-x-0 bottom-0 h-0.5 rounded bg-current transition-transform duration-(--dur)", open && "-translate-y-[5px] -rotate-45")} />
-            </span>
+            <m.span aria-hidden className="absolute h-px w-4 bg-current" initial={false} animate={open ? { rotate: 45, y: 0 } : { rotate: 0, y: -4 }} transition={{ duration: 0.35, ease: easeSun }} />
+            <m.span aria-hidden className="absolute h-px w-4 bg-current" initial={false} animate={open ? { rotate: -45, y: 0 } : { rotate: 0, y: 4 }} transition={{ duration: 0.35, ease: easeSun }} />
           </button>
         </div>
       </div>
     </header>
 
       {/* Outside <header>: its backdrop-filter would make it the containing block for this fixed sheet. */}
-      <div
-        id="mobile-menu"
-        ref={sheetRef}
-        hidden={!open}
-        className="fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto overscroll-contain bg-bg px-4 pt-6 pb-[max(2rem,env(safe-area-inset-bottom))] sm:px-6 lg:hidden"
-      >
-        <nav aria-label="Mobile">
-          <ul className="divide-y divide-line border-y border-line">
-            {[{ href: "/", label: "Home" }, ...nav].map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  aria-current={pathname === item.href ? "page" : undefined}
-                  className="font-display flex items-center justify-between py-4 text-2xl font-semibold tracking-tight aria-[current=page]:text-accent-text"
-                >
-                  {item.label}
-                  <span aria-hidden className="text-muted">
-                    →
+      <AnimatePresence>
+        {open && (
+          <m.div
+            id="mobile-menu"
+            key="menu"
+            ref={sheetRef}
+            initial={{ clipPath: "inset(0 0 100% 0)" }}
+            animate={{ clipPath: "inset(0 0 0% 0)" }}
+            exit={{ clipPath: "inset(0 0 100% 0)", transition: { duration: 0.45, ease: WIPE, delay: 0.1 } }}
+            transition={{ duration: 0.6, ease: WIPE }}
+            className="fixed inset-x-0 top-16 bottom-0 z-[45] flex flex-col justify-between overflow-y-auto overscroll-contain bg-bg px-4 pt-6 pb-[max(2rem,env(safe-area-inset-bottom))] sm:px-6 lg:hidden"
+          >
+            <nav aria-label="Mobile">
+              <m.ul
+                initial="hidden"
+                animate="show"
+                exit="hidden"
+                variants={{
+                  show: { transition: { staggerChildren: 0.07, delayChildren: 0.2 } },
+                  hidden: { transition: { staggerChildren: 0.03, staggerDirection: -1 } },
+                }}
+                className="border-t border-line"
+              >
+                {[{ href: "/", label: "Home" }, ...nav].map((item, i) => (
+                  <li key={item.href} className="overflow-hidden border-b border-line">
+                    <m.div
+                      variants={{
+                        hidden: { y: "100%", opacity: 0, transition: { duration: 0.25, ease: easeSun } },
+                        show: { y: "0%", opacity: 1, transition: { duration: 0.7, ease: easeSun } },
+                      }}
+                    >
+                      <Link
+                        href={item.href}
+                        aria-current={pathname === item.href ? "page" : undefined}
+                        className="font-display flex items-baseline justify-between py-5 text-3xl font-semibold tracking-tight aria-[current=page]:text-accent-text"
+                      >
+                        {item.label}
+                        <span aria-hidden className="text-xs font-medium text-muted tabular-nums">
+                          0{i + 1}
+                        </span>
+                      </Link>
+                    </m.div>
+                  </li>
+                ))}
+              </m.ul>
+            </nav>
+            <m.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0, transition: { delay: 0.45, duration: 0.6, ease: easeSun } }}
+              exit={{ opacity: 0 }}
+              className="mt-10 space-y-3"
+            >
+              <Link href="/get-involved" className={cn(buttonClasses({ size: "lg" }), "w-full")}>
+                Get involved
+              </Link>
+              {chatHref && (
+                <a href={chatHref} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between rounded-[var(--radius-lg)] border border-line bg-surface p-5">
+                  <span>
+                    <span className="block text-sm text-muted">Questions for Alexander?</span>
+                    <span className="font-display text-lg font-semibold">Chat on WhatsApp</span>
+                    <span className="sr-only"> (opens WhatsApp)</span>
                   </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-        <Link href="/get-involved" className={cn(buttonClasses({ size: "lg" }), "mt-8 w-full")}>
-          Get involved
-        </Link>
-      </div>
+                  <span aria-hidden className="text-accent-text">
+                    ↗
+                  </span>
+                </a>
+              )}
+            </m.div>
+          </m.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

@@ -3,7 +3,8 @@ import { updates } from "@/content/updates";
 /**
  * Site-wide facts and contact channels.
  * Env values override the defaults below; a channel with no value is simply hidden.
- * The phone/WhatsApp, Facebook and Instagram defaults were supplied by the campaign on 1 Nov 2026.
+ * The phone/WhatsApp, Facebook and Instagram defaults were supplied by the campaign on 1 Nov 2026;
+ * the email (the campaign's own domain, also where the pledge form delivers) on 2 Nov 2026.
  */
 export const site = {
   name: "Alexander Obiechina for REAN President",
@@ -11,7 +12,7 @@ export const site = {
   url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
   description:
     "Alexander Obiechina’s plan for the Renewable Energy Association of Nigeria: 7 strategic pillars, a 100-day plan with dates, and targets members can hold him to.",
-  email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "",
+  email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@alexanderobiechina.com",
   /** Same number as the phone; the campaign confirmed it takes WhatsApp (1 Nov 2026). */
   whatsapp: (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "+2348032902825").replace(/\D/g, ""),
   phone: process.env.NEXT_PUBLIC_PHONE || "+2348032902825",
@@ -22,6 +23,13 @@ export const site = {
   instagram: process.env.NEXT_PUBLIC_INSTAGRAM_URL || "https://www.instagram.com/alexobiechina",
   /** UNVERIFIED: default wording until the campaign names the publisher. */
   publishedBy: process.env.NEXT_PUBLIC_PUBLISHED_BY || "the Alexander Obiechina campaign",
+  /**
+   * Where pledge and question emails go, and who they come from (app/actions/pledge.ts). Not secret,
+   * so they live here; only RESEND_API_KEY is a Vercel setting. The sender's domain is verified in
+   * Resend (2 Nov 2026); pledges@ needs no mailbox, since replies go to the person who wrote in.
+   */
+  pledgeTo: process.env.PLEDGE_TO_EMAIL || "info@alexanderobiechina.com",
+  pledgeFrom: process.env.PLEDGE_FROM_EMAIL || "Alexander Obiechina Campaign <pledges@alexanderobiechina.com>",
   /** Slogan supplied by the campaign, 2 Nov 2026 (replaces the previous site's line). */
   slogan: "A stronger REAN. A greater industry.",
 };

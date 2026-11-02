@@ -50,7 +50,7 @@ All figures live in `src/content/candidate.ts` → `figures` and `facts`.
 These stay hidden until filled; nothing fake is shown:
 
 - [x] Phone and WhatsApp (0803 290 2825), Facebook and Instagram: supplied by the campaign on 1 Nov 2026, set as defaults in `src/lib/site.ts`.
-- [ ] Campaign email (`.env.local`).
-- [ ] Form delivery: a Resend API key and a verified sender domain. Until then the form says it isn't live.
+- [x] Campaign email: info@alexanderobiechina.com (2 Nov 2026), shown in the footer, Get involved and the privacy notice. `site.ts` → `email`.
+- [ ] Form delivery: add `RESEND_API_KEY` on Vercel (Production). The sender domain alexanderobiechina.com is verified in Resend (2 Nov 2026); pledges go to info@ from pledges@ (defaults in `site.ts`). Until the key is set, the form says it isn't live.
 - [ ] Events and endorsements. No section exists; add one when there's real material, and get written consent for endorsements.
 - [ ] Campaign updates (`src/content/updates.ts`). The newsletter PDF is deliberately held back, because it describes outcomes as already achieved.
