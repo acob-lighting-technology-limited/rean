@@ -43,7 +43,7 @@ export default function HomePage() {
             />
             <p className="ao-lift font-display mt-4 text-xl font-semibold text-accent-text sm:text-2xl">{site.slogan}</p>
             <p className="ao-lift mt-4 max-w-xl text-lg leading-relaxed text-muted sm:text-xl [@media(min-width:1024px)_and_(max-height:820px)]:text-lg" style={{ "--d": "150ms" } as React.CSSProperties}>
-              A plan to make the Renewable Energy Association of Nigeria defend its members, lead in the state electricity markets and bring capital to their projects.
+              Let’s build an association that delivers real value to its members, amplifies their collective voice, and brings capital and new markets to Nigeria’s renewable energy industry.
             </p>
             <ElectionDate countdown={false} className="ao-lift mt-6 text-[15px]" style={{ "--d": "260ms" } as React.CSSProperties} />
             <div className="ao-lift mt-8 flex flex-wrap gap-3 [@media(min-width:1024px)_and_(max-height:820px)]:mt-6" style={{ "--d": "370ms" } as React.CSSProperties}>

@@ -57,6 +57,13 @@ export function ShareFab() {
     return () => io.disconnect();
   }, [pathname]);
 
+  // Tell the countdown pill (components/countdown-badge.tsx) to lift above the button while it shows.
+  const visible = show && pathname !== "/get-involved";
+  useEffect(() => {
+    document.documentElement.toggleAttribute("data-share-fab", visible);
+    return () => document.documentElement.removeAttribute("data-share-fab");
+  }, [visible]);
+
   if (pathname === "/get-involved") return null;
 
   return (
