@@ -2,6 +2,8 @@
  * Copies the supplied photos into public/images at web sizes.
  * Usage: node scripts/optimise-images.mjs "<folder with the supplied photos>"
  * next/image then serves AVIF/WebP variants at the size each layout needs.
+ * public/images/gallery and public/images/milestones are not made here: they come from the campaign's
+ * Telegram set, a Nigeria Energy post (text painted out) and ACOB's published updates, resized once.
  */
 import { mkdir } from "node:fs/promises";
 import path from "node:path";
@@ -17,8 +19,6 @@ const jobs = [
   ["hd/2.png", "portrait-seated.jpg", 1400],
   ["hd/4.png", "portrait-pointing.jpg", 1400],
   ["hd/5.png", "portrait-side.jpg", 1400],
-  ["New folder/IMG_0787.JPG", "summit-speaking.jpg", 1800],
-  ["New folder/IMG_0785.JPG", "summit-audience.jpg", 1800],
   // Inner page heroes: full-width banners, so wide, high-resolution shots only.
   ["New folder/IMG_0787.JPG", "banner-plan.jpg", 2400],
   ["New folder/IMG_0777.JPG", "banner-100days.jpg", 2400],
@@ -31,14 +31,7 @@ const jobs = [
   ["New folder/IMG_0801.JPG", "strip-native-full.jpg", 1000],
   ["New folder/IMG_0784.JPG", "strip-seated-mic.jpg", 1000],
   ["New folder/IMG_0790.JPG", "strip-wave.jpg", 1000],
-  ["New folder/IMG_0783.JPG", "strip-panel.jpg", 1000],
-  ["New folder/IMG_0796.JPG", "strip-colleagues.jpg", 1000],
-  // Second row of the strip.
   ["New folder/IMG_0791.JPG", "strip-consult.jpg", 1000],
-  ["New folder/IMG_0793.JPG", "strip-booth.jpg", 1000],
-  ["New folder/IMG_0797.JPG", "strip-photo-wall.jpg", 1000],
-  ["New folder/IMG_0792.JPG", "strip-greeting.jpg", 1000],
-  ["New folder/IMG_0795.JPG", "strip-guest.jpg", 1000],
   ["New folder/IMG_0811.JPG", "strip-panel-wide.jpg", 1000],
 ];
 

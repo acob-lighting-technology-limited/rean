@@ -231,10 +231,10 @@ export default function HomePage() {
           <Reveal>
             <ImageReveal className="overflow-hidden rounded-[var(--radius-lg)] bg-surface-2">
               <Image
-                src={photos.summitSpeaking.src}
-                alt={photos.summitSpeaking.alt}
-                width={photos.summitSpeaking.width}
-                height={photos.summitSpeaking.height}
+                src={photos.awardLondon.src}
+                alt={photos.awardLondon.alt}
+                width={photos.awardLondon.width}
+                height={photos.awardLondon.height}
                 sizes="(min-width: 1024px) 600px, 92vw"
                 className="aspect-[3/2] w-full object-cover"
               />

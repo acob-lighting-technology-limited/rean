@@ -37,6 +37,7 @@ All figures live in `src/content/candidate.ts` → `figures` and `facts`.
 - [ ] **Studio portraits.** These are the WhatsApp-compressed copies from the Desktop `rean` folder; get the originals.
 - [ ] **Hero cut-out** (`public/images/portrait-standing-cutout.png`): a trial, cut from the WhatsApp copy of the standing portrait (1 Nov 2026) because the MD did not like the studio backdrop. Redo it from the original high-resolution photo, ideally by a designer, before launch. The home hero now shows a tight head-and-collar crop of it (`portrait-hero-crop.png`), enlarged, so it is soft until the original arrives.
 - [ ] **Nigeria Energy summit photos** (`summit-*`, `hero-*`, `strip-*`, `about-*` in `public/images`). Get permission and a photographer credit; they show the event's branding. Several also show other people (the handshake on Get involved, the group on stage and the colleagues at the photo wall in the home strip): get their consent or swap those photos out.
+- [ ] **ACOB milestone photos** (`public/images/milestones`). The Partnerships & milestones timeline (`components/milestones.tsx`, `milestones` in `candidate.ts`) is built but taken off the About page for now (2 Nov 2026); put `<Milestones />` back to show it. Taken from ACOB's published updates on acoblighting.com, each entry linked to its post. Confirm ACOB is happy for the campaign to use them; several show officials (Nasarawa Governor, REA), so captions stay factual ("met", "signed") and imply no endorsement.
 
 ## 5. Process and legal
 

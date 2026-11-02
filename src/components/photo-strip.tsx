@@ -1,16 +1,18 @@
 import Image from "next/image";
 import { cn } from "@/ui/lib/cn";
 import { Container } from "@/ui/primitives/container";
-import { photos } from "@/content/candidate";
+import { gallery as g, photos } from "@/content/candidate";
 import { SectionHeading } from "./section-heading";
 
+// A mix of every source (campaign event photos, ACOB's updates, the Nigeria Energy summit), so no
+// stretch of either row is all one event.
 const rows = [
-  [photos.stripNativeFull, photos.stripSeatedMic, photos.stripPanel, photos.stripWave, photos.summitAudience, photos.stripColleagues],
-  [photos.stripConsult, photos.stripPhotoWall, photos.stripPanelWide, photos.stripGuest, photos.stripBooth, photos.stripGreeting],
+  [g.nigeriaEnergy, g.reaOndo, photos.stripNativeFull, g.forumPortrait, g.panelMic, photos.stripSeatedMic, g.stateHandshake, g.alphaessSigning, g.panelKaftan, photos.stripPanelWide],
+  [g.greeting, g.bondAward, g.frontRow, photos.stripConsult, g.floorMic, g.nasarawaLodge, g.delegates, photos.stripWave, g.welcome, g.nasarawaSummit, g.stateGroup],
 ];
 
 /**
- * Home-page ribbon of event photos: two rows drifting slowly sideways in opposite directions
+ * Home-page ribbon of photos of Alexander across the sector: two rows drifting slowly sideways in opposite directions
  * (.ao-strip and .ao-strip-reverse in globals.css).
  * Each row is rendered twice so the loop is seamless; the second copy is hidden from assistive tech.
  * A row pauses on hover or keyboard focus. Under reduced motion they stop and become rows you scroll.
