@@ -23,7 +23,7 @@ export function CountdownBadge({ className }: { className?: string }) {
       data-print-hide
       style={{ "--d": "520ms" } as React.CSSProperties}
       className={cn(
-        "ao-lift pointer-events-none fixed bottom-[max(1rem,env(safe-area-inset-bottom))] left-4 z-40 flex items-center gap-2 rounded-full border border-line bg-[color-mix(in_srgb,var(--surface)_90%,transparent)] py-1.5 pr-3.5 pl-1.5 text-sm shadow-[0_0.5rem_1.5rem_-0.5rem_rgb(0_0_0/0.35)] backdrop-blur-xl md:right-6 md:bottom-6 md:left-auto",
+        "ao-lift pointer-events-none fixed bottom-[max(0.375rem,env(safe-area-inset-bottom))] left-4 z-40 flex items-center gap-2 rounded-full border border-line bg-[color-mix(in_srgb,var(--surface)_90%,transparent)] py-1.5 pr-3.5 pl-1.5 text-sm shadow-[0_0.5rem_1.5rem_-0.5rem_rgb(0_0_0/0.35)] backdrop-blur-xl md:right-6 md:bottom-6 md:left-auto",
         className,
       )}
     >

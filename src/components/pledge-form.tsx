@@ -7,6 +7,7 @@ import type { PledgeState } from "@/lib/pledge";
 import { MEMBERSHIP, membershipLabel } from "@/lib/pledge-options";
 import { cn } from "@/ui/lib/cn";
 import { buttonClasses } from "@/ui/primitives/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/primitives/select";
 import { ShareOnWhatsApp } from "./share";
 
 const fieldBase =
@@ -112,17 +113,19 @@ export function PledgeForm() {
       </div>
 
       <Field id="membership" label="Your connection to REAN" error={errors.membership}>
-        {/* React's post-action form reset ignores a select's defaultValue, so remount it per submission. */}
-        <select key={"at" in state ? state.at : 0} id="membership" name="membership" defaultValue={values.membership ?? ""} required className={cn(fieldBase, "appearance-auto bg-surface text-fg")} {...err("membership")}>
-          <option value="" disabled>
-            Choose one…
-          </option>
-          {MEMBERSHIP.map((m) => (
-            <option key={m} value={m}>
-              {membershipLabel[m]}
-            </option>
-          ))}
-        </select>
+        {/* React resets the form after an action; remounting per submission restores the chosen value. */}
+        <Select key={"at" in state ? state.at : 0} name="membership" defaultValue={values.membership || undefined} required>
+          <SelectTrigger id="membership" className={cn(fieldBase, "flex")} {...err("membership")}>
+            <SelectValue placeholder="Choose one…" />
+          </SelectTrigger>
+          <SelectContent>
+            {MEMBERSHIP.map((m) => (
+              <SelectItem key={m} value={m}>
+                {membershipLabel[m]}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </Field>
 
       <Field id="message" label="Message or question" hint="(required for questions)" error={errors.message}>

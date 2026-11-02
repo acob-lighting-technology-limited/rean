@@ -258,6 +258,26 @@ li {
 .ao-nav-item {
   animation: ao-nav-in 0.6s var(--ease-sun) calc(1s + var(--i, 0) * 120ms + var(--splash-delay)) both;
 }
+/* Dropdown panel (ui/primitives/select.tsx): drops and fades in from the field it belongs to. */
+@keyframes ao-select-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+}
+.ao-select-content[data-state="open"] {
+  transform-origin: var(--radix-select-content-transform-origin);
+  animation: ao-select-in 0.18s var(--ease-sun);
+}
+/* The highlighted option's background already shows keyboard focus; skip the site-wide ring. */
+.ao-select-content [role="option"]:focus-visible {
+  outline: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ao-select-content[data-state="open"] {
+    animation: none;
+  }
+}
 /* Below lg the nav links live in the menu, so the theme and menu buttons arrive with the logo. */
 @media (width < 64rem) {
   .ao-nav-actions {
