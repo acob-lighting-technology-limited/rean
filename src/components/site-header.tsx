@@ -17,6 +17,9 @@ import { ThemeToggle } from "./theme-toggle";
  * - Scrolling down past the first screenful slides it away; scrolling up brings it back. It never
  *   hides while the phone menu is open, and keyboard focus inside it brings it back.
  * - Each route change resyncs against the real scroll position, since the header is not remounted.
+ * - Only a banner actually on screen under the header counts: Next keeps the previous page mounted
+ *   but hidden (display: none) for instant back navigation, and its banner must not turn the links
+ *   white over a light page.
  * On a full page load it drops in as the loading curtain clears, links following in turn
  * (.ao-drop, .ao-nav-item in globals.css). On phones the menu is a full-screen sheet: Escape closes
  * it, focus moves into it and back to the toggle, the page behind stops scrolling, and any route
@@ -39,7 +42,12 @@ export function SiteHeader() {
     const sync = (fromRoute = false) => {
       const y = window.scrollY;
       setScrolled(y > 10);
-      setOverDark(Boolean(document.querySelector('[data-header-tone="dark"]')));
+      setOverDark(
+        [...document.querySelectorAll('[data-header-tone="dark"]')].some((el) => {
+          const box = el.getBoundingClientRect();
+          return el.getClientRects().length > 0 && box.top < 64 && box.bottom > 0;
+        }),
+      );
       if (fromRoute) setHidden(false);
       else if (Math.abs(y - lastY.current) > 6) setHidden(y > lastY.current && y > 160);
       lastY.current = y;
