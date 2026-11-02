@@ -22,8 +22,8 @@ export const site = {
   instagram: process.env.NEXT_PUBLIC_INSTAGRAM_URL || "https://www.instagram.com/alexobiechina",
   /** UNVERIFIED: default wording until the campaign names the publisher. */
   publishedBy: process.env.NEXT_PUBLIC_PUBLISHED_BY || "the Alexander Obiechina campaign",
-  /** UNVERIFIED: slogan carried over from the previous site; approval not confirmed. */
-  slogan: "Powering the industry. Empowering our members.",
+  /** Slogan supplied by the campaign, 2 Nov 2026 (replaces the previous site's line). */
+  slogan: "A stronger REAN. A greater industry.",
 };
 
 /**

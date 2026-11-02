@@ -10,7 +10,7 @@ Each item is tagged `UNVERIFIED` (or `verified: false`) in the code. `npm run ch
 - [x] **Biography**, on the About page. Supplied by the campaign, 1 Nov 2026 (MBA, Mandela Washington Fellowship, REA, NEP/GIZ, concessional debt); wording tidied. `candidate.ts` → `bio`.
 - [ ] **The 7 pillar commitments**, the plan's opening line and the 100-day pledge, rewritten from the manifesto's institutional voice into "I will…". Pillar 3 (partnerships) has no manifesto commitment, so it was derived from the framework objective. `src/content/plan.ts`.
 - [ ] **"My commitment to members"** (I will listen / connect / be clear / work with you), carried over from the previous site. `candidate.ts` → `memberCommitments`.
-- [ ] **Slogan** "Powering the industry. Empowering our members.", carried over from the previous site. `src/lib/site.ts` → `slogan`.
+- [x] **Slogan** "A stronger REAN. A greater industry.", supplied by the campaign on 2 Nov 2026 (replaces the previous site's "Powering the industry. Empowering our members."). `src/lib/site.ts` → `slogan`.
 
 ## 2. Figures
 
