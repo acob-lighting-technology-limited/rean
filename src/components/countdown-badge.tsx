@@ -5,9 +5,9 @@ import { useDaysLeft } from "./election-date";
 
 /**
  * Small election countdown pinned to the bottom-right corner of every page (mounted once in the
- * site layout): a calendar icon with a live dot and "24 days to go". It sits in the corner; on phones
- * it lifts above the floating WhatsApp share button (components/share.tsx) only while that button
- * shows (it flags <html data-share-fab>), so it never hangs over empty space.
+ * site layout): a calendar icon with a live dot and "24 days to go". Bottom right from md; on phones
+ * bottom left, so the floating WhatsApp share button (components/share.tsx) keeps the right corner
+ * and the two never stack.
  * Rendered in the browser only (the count is never prerendered, so it is never stale), and gone
  * once election day has passed.
  */
@@ -23,7 +23,7 @@ export function CountdownBadge({ className }: { className?: string }) {
       data-print-hide
       style={{ "--d": "520ms" } as React.CSSProperties}
       className={cn(
-        "ao-lift pointer-events-none fixed right-4 bottom-[max(1rem,env(safe-area-inset-bottom))] z-40 transition-[bottom] duration-(--dur) ease-sun motion-reduce:transition-none max-md:[html[data-share-fab]_&]:bottom-[calc(max(1rem,env(safe-area-inset-bottom))+3.5rem)] flex items-center gap-2 rounded-full border border-line bg-[color-mix(in_srgb,var(--surface)_90%,transparent)] py-1.5 pr-3.5 pl-1.5 text-sm shadow-[0_0.5rem_1.5rem_-0.5rem_rgb(0_0_0/0.35)] backdrop-blur-xl md:right-6 md:bottom-6",
+        "ao-lift pointer-events-none fixed bottom-[max(1rem,env(safe-area-inset-bottom))] left-4 z-40 flex items-center gap-2 rounded-full border border-line bg-[color-mix(in_srgb,var(--surface)_90%,transparent)] py-1.5 pr-3.5 pl-1.5 text-sm shadow-[0_0.5rem_1.5rem_-0.5rem_rgb(0_0_0/0.35)] backdrop-blur-xl md:right-6 md:bottom-6 md:left-auto",
         className,
       )}
     >
