@@ -268,6 +268,15 @@ li {
     animation: none;
   }
 }
+/* While the phone menu covers the page (site-header.tsx sets data-menu), stop drawing what is
+   underneath: the moving gallery pauses, and the blurred floating pill and share button hide. */
+:root[data-menu="open"] .ao-strip-track {
+  animation-play-state: paused;
+}
+:root[data-menu="open"] [role="timer"],
+:root[data-menu="open"] [data-share-fab] {
+  visibility: hidden;
+}
 /* Below lg the nav links live in the menu, so the theme and menu buttons arrive with the logo. */
 @media (width < 64rem) {
   .ao-nav-actions {

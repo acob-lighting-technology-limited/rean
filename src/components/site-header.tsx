@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, m } from "motion/react";
+import { m } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -27,7 +27,8 @@ import { ThemeToggle } from "./theme-toggle";
  * menu buttons arrive with the logo instead (.ao-nav-actions).
  * On phones the menu is a full-screen sheet, ported from the Vertex Electric site: the two-line
  * toggle turns into an X, the sheet wipes down from under the header, and its numbered links slide
- * up one by one (reversed on close). Escape closes it, focus moves into it (once the wipe ends) and back to the toggle,
+ * up one by one (reversed on close). While it is open, <html data-menu="open"> lets globals.css pause
+ * and hide what it covers, so a phone only has to draw the menu. Escape closes it, focus moves into it (once the wipe ends) and back to the toggle,
  * the page behind stops scrolling, and any route change closes it (the open state is tied to the
  * path it was opened on).
  */
@@ -80,14 +81,27 @@ export function SiteHeader() {
   const solid = scrolled || open;
   const onDark = overDark && !solid;
 
+  // Page-wide changes (scroll lock, <html data-menu>) each force the browser to lay out the whole
+  // page. They run once the opening wipe has finished and are undone once the closing wipe has
+  // finished, never on the same frame as the tap, so neither wipe stalls at its first frame.
+  const settleOpen = () => {
+    const root = document.documentElement;
+    root.style.overflow = "hidden";
+    root.dataset.menu = "open";
+    sheetRef.current?.querySelector<HTMLElement>("a")?.focus({ preventScroll: true });
+  };
+  const settleClosed = () => {
+    const root = document.documentElement;
+    root.style.overflow = "";
+    delete root.dataset.menu;
+  };
+
   useEffect(() => {
     if (!open) return;
     const toggle = toggleRef.current;
-    document.documentElement.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
     window.addEventListener("keydown", onKey);
     return () => {
-      document.documentElement.style.overflow = "";
       window.removeEventListener("keydown", onKey);
       toggle?.focus({ preventScroll: true });
     };
@@ -158,82 +172,91 @@ export function SiteHeader() {
       </div>
     </header>
 
-      {/* Outside <header>: its backdrop-filter would make it the containing block for this fixed sheet. */}
-      <AnimatePresence>
-        {open && (
-          <m.div
-            id="mobile-menu"
-            key="menu"
-            ref={sheetRef}
-            // Focus moves into the menu once the wipe has finished: focusing at once forces a full
-            // layout that stalled the first frames (about 160ms on a mid-range phone).
-            onAnimationComplete={() => open && sheetRef.current?.querySelector<HTMLElement>("a")?.focus({ preventScroll: true })}
-            initial={{ clipPath: "inset(0 0 100% 0)" }}
-            animate={{ clipPath: "inset(0 0 0% 0)" }}
-            exit={{ clipPath: "inset(0 0 100% 0)", transition: { duration: 0.45, ease: WIPE, delay: 0.1 } }}
-            transition={{ duration: 0.6, ease: WIPE }}
-            className="fixed inset-x-0 top-16 bottom-0 z-[45] flex flex-col justify-between overflow-y-auto overscroll-contain bg-bg px-4 pt-6 pb-[max(2rem,env(safe-area-inset-bottom))] sm:px-6 lg:hidden"
+      {/* Outside <header>: its backdrop-filter would make it the containing block for this fixed sheet.
+          Always in the page, hidden (clipped away, invisible and inert) while closed, so a tap only
+          reveals it: building it on the tap meant laying out a new block of the page on the same
+          frame the wipe started, which stalled it. */}
+      <m.div
+        id="mobile-menu"
+        ref={sheetRef}
+        inert={!open}
+        aria-hidden={!open}
+        initial={false}
+        animate={open ? "open" : "closed"}
+        variants={{
+          open: { clipPath: "inset(0 0 0% 0)", visibility: "visible", transition: { duration: 0.6, ease: WIPE } },
+          closed: { clipPath: "inset(0 0 100% 0)", transitionEnd: { visibility: "hidden" }, transition: { duration: 0.45, ease: WIPE, delay: 0.1 } },
+        }}
+        // Focus, scroll lock and data-menu wait for each wipe to finish (see settleOpen).
+        onAnimationComplete={(def) => (def === "open" ? settleOpen() : settleClosed())}
+        style={{ clipPath: "inset(0 0 100% 0)", visibility: "hidden" }}
+        className="fixed inset-x-0 top-16 bottom-0 z-[45] flex flex-col justify-between overflow-y-auto overscroll-contain bg-bg px-4 pt-2 pb-[max(2rem,env(safe-area-inset-bottom))] sm:px-6 lg:hidden"
+      >
+        <nav aria-label="Mobile">
+          <m.ul
+            variants={{
+              open: { transition: { staggerChildren: 0.07, delayChildren: 0.2 } },
+              closed: { transition: { staggerChildren: 0.03, staggerDirection: -1 } },
+            }}
           >
-            <nav aria-label="Mobile">
-              <m.ul
-                initial="hidden"
-                animate="show"
-                exit="hidden"
-                variants={{
-                  show: { transition: { staggerChildren: 0.07, delayChildren: 0.2 } },
-                  hidden: { transition: { staggerChildren: 0.03, staggerDirection: -1 } },
-                }}
-                className="border-t border-line"
-              >
-                {[{ href: "/", label: "Home" }, ...nav].map((item, i) => (
-                  <li key={item.href} className="overflow-hidden border-b border-line">
-                    <m.div
-                      variants={{
-                        hidden: { y: "100%", opacity: 0, transition: { duration: 0.25, ease: easeSun } },
-                        show: { y: "0%", opacity: 1, transition: { duration: 0.7, ease: easeSun } },
-                      }}
-                    >
-                      <Link
-                        href={item.href}
-                        onClick={close}
-                        aria-current={pathname === item.href ? "page" : undefined}
-                        className="font-display flex items-baseline justify-between py-5 text-3xl font-semibold tracking-tight aria-[current=page]:text-accent-text"
-                      >
-                        {item.label}
-                        <span aria-hidden className="text-xs font-medium text-muted tabular-nums">
-                          0{i + 1}
-                        </span>
-                      </Link>
-                    </m.div>
-                  </li>
-                ))}
-              </m.ul>
-            </nav>
-            <m.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0, transition: { delay: 0.45, duration: 0.6, ease: easeSun } }}
-              exit={{ opacity: 0 }}
-              className="mt-10 space-y-3"
-            >
-              <Link href="/get-involved" onClick={close} className={cn(buttonClasses({ size: "lg" }), "w-full")}>
-                Get involved
-              </Link>
-              {chatHref && (
-                <a href={chatHref} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between rounded-[var(--radius-lg)] border border-line bg-surface p-5">
-                  <span>
-                    <span className="block text-sm text-muted">Questions for Alexander?</span>
-                    <span className="font-display text-lg font-semibold">Chat on WhatsApp</span>
-                    <span className="sr-only"> (opens WhatsApp)</span>
-                  </span>
-                  <span aria-hidden className="text-accent-text">
-                    ↗
-                  </span>
-                </a>
-              )}
-            </m.div>
+            {[{ href: "/", label: "Home" }, ...nav].map((item, i) => (
+              <li key={item.href} className="overflow-hidden border-b border-line">
+                <m.div
+                  variants={{
+                    closed: { y: "100%", opacity: 0, transition: { duration: 0.25, ease: easeSun } },
+                    open: { y: "0%", opacity: 1, transition: { duration: 0.7, ease: easeSun } },
+                  }}
+                >
+                  <Link
+                    href={item.href}
+                    onClick={close}
+                    aria-current={pathname === item.href ? "page" : undefined}
+                    className="font-display flex items-baseline justify-between py-5 text-3xl font-semibold tracking-tight aria-[current=page]:text-accent-text"
+                  >
+                    {item.label}
+                    <span aria-hidden className="text-xs font-medium text-muted tabular-nums">
+                      0{i + 1}
+                    </span>
+                  </Link>
+                </m.div>
+              </li>
+            ))}
+          </m.ul>
+        </nav>
+        <div className="mt-10 space-y-3">
+          <m.div
+            variants={{
+              closed: { opacity: 0, y: 20, transition: { duration: 0.2 } },
+              open: { opacity: 1, y: 0, transition: { delay: 0.45, duration: 0.6, ease: easeSun } },
+            }}
+          >
+            <Link href="/get-involved" onClick={close} className={cn(buttonClasses({ size: "lg" }), "w-full")}>
+              Get involved
+            </Link>
           </m.div>
-        )}
-      </AnimatePresence>
+          {chatHref && (
+            <m.a
+              href={chatHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              variants={{
+                closed: { opacity: 0, y: 20, transition: { duration: 0.2 } },
+                open: { opacity: 1, y: 0, transition: { delay: 0.55, duration: 0.6, ease: easeSun } },
+              }}
+              className="flex items-center justify-between rounded-[var(--radius-lg)] border border-line bg-surface p-5"
+            >
+              <span>
+                <span className="block text-sm text-muted">Questions for Alexander?</span>
+                <span className="font-display text-lg font-semibold">Chat on WhatsApp</span>
+                <span className="sr-only"> (opens WhatsApp)</span>
+              </span>
+              <span aria-hidden className="text-accent-text">
+                ↗
+              </span>
+            </m.a>
+          )}
+        </div>
+      </m.div>
     </>
   );
 }

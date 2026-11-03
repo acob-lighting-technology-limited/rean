@@ -68,6 +68,7 @@ export function ShareFab() {
       aria-hidden={!show}
       tabIndex={show ? undefined : -1}
       data-print-hide
+      data-share-fab
       className={cn(
         "fixed right-4 bottom-[max(0.375rem,env(safe-area-inset-bottom))] z-40 inline-flex min-h-12 items-center gap-2 rounded-full bg-[#25D366] px-4 text-sm font-semibold text-[#06281a] shadow-[0_8px_30px_-6px_rgb(0_0_0/0.45)] transition-[opacity,transform] duration-(--dur) ease-sun md:hidden motion-reduce:transition-none",
         show ? "translate-y-0 scale-100 opacity-100" : "pointer-events-none translate-y-3 scale-90 opacity-0",
