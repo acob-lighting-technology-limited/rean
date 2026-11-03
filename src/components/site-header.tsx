@@ -27,7 +27,7 @@ import { ThemeToggle } from "./theme-toggle";
  * menu buttons arrive with the logo instead (.ao-nav-actions).
  * On phones the menu is a full-screen sheet, ported from the Vertex Electric site: the two-line
  * toggle turns into an X, the sheet wipes down from under the header, and its numbered links slide
- * up one by one (reversed on close). Escape closes it, focus moves into it and back to the toggle,
+ * up one by one (reversed on close). Escape closes it, focus moves into it (once the wipe ends) and back to the toggle,
  * the page behind stops scrolling, and any route change closes it (the open state is tied to the
  * path it was opened on).
  */
@@ -74,6 +74,9 @@ export function SiteHeader() {
     };
   }, [pathname]);
 
+  // Like Vertex: a tap on a menu link closes the menu at once, so the wipe plays while the next
+  // page loads instead of the open menu sitting frozen until it arrives.
+  const close = () => setOpenOn(null);
   const solid = scrolled || open;
   const onDark = overDark && !solid;
 
@@ -81,13 +84,12 @@ export function SiteHeader() {
     if (!open) return;
     const toggle = toggleRef.current;
     document.documentElement.style.overflow = "hidden";
-    sheetRef.current?.querySelector<HTMLElement>("a")?.focus();
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpenOn(null);
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
     window.addEventListener("keydown", onKey);
     return () => {
       document.documentElement.style.overflow = "";
       window.removeEventListener("keydown", onKey);
-      toggle?.focus();
+      toggle?.focus({ preventScroll: true });
     };
   }, [open]);
 
@@ -163,6 +165,9 @@ export function SiteHeader() {
             id="mobile-menu"
             key="menu"
             ref={sheetRef}
+            // Focus moves into the menu once the wipe has finished: focusing at once forces a full
+            // layout that stalled the first frames (about 160ms on a mid-range phone).
+            onAnimationComplete={() => open && sheetRef.current?.querySelector<HTMLElement>("a")?.focus({ preventScroll: true })}
             initial={{ clipPath: "inset(0 0 100% 0)" }}
             animate={{ clipPath: "inset(0 0 0% 0)" }}
             exit={{ clipPath: "inset(0 0 100% 0)", transition: { duration: 0.45, ease: WIPE, delay: 0.1 } }}
@@ -190,6 +195,7 @@ export function SiteHeader() {
                     >
                       <Link
                         href={item.href}
+                        onClick={close}
                         aria-current={pathname === item.href ? "page" : undefined}
                         className="font-display flex items-baseline justify-between py-5 text-3xl font-semibold tracking-tight aria-[current=page]:text-accent-text"
                       >
@@ -209,7 +215,7 @@ export function SiteHeader() {
               exit={{ opacity: 0 }}
               className="mt-10 space-y-3"
             >
-              <Link href="/get-involved" className={cn(buttonClasses({ size: "lg" }), "w-full")}>
+              <Link href="/get-involved" onClick={close} className={cn(buttonClasses({ size: "lg" }), "w-full")}>
                 Get involved
               </Link>
               {chatHref && (
