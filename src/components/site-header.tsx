@@ -27,13 +27,27 @@ import { ThemeToggle } from "./theme-toggle";
  * menu buttons arrive with the logo instead (.ao-nav-actions).
  * On phones the menu is a full-screen sheet, ported from the Vertex Electric site: the two-line
  * toggle turns into an X, the sheet wipes down from under the header, and its numbered links slide
- * up one by one (reversed on close). While it is open, <html data-menu="open"> lets globals.css pause
+ * up one by one; on close they leave in reverse before the panel slides back up (timings in MENU). While it is open, <html data-menu="open"> lets globals.css pause
  * and hide what it covers, so a phone only has to draw the menu. Escape closes it, focus moves into it (once the wipe ends) and back to the toggle,
  * the page behind stops scrolling, and any route change closes it (the open state is tied to the
  * path it was opened on).
  */
-/** Vertex's menu wipe: slow in and out, so the sheet reads as a curtain. */
-const WIPE = [0.76, 0, 0.24, 1] as const;
+/**
+ * Menu timing (seconds). Opening: the panel slides down on the soft ease-out, then the links rise
+ * in turn. Closing: the links leave in reverse first, then the panel slides back up, so it never
+ * snaps shut. Only transform and opacity animate, which phones run on the GPU.
+ */
+const MENU = {
+  open: 0.55,
+  linkIn: 0.5,
+  linkInStagger: 0.065,
+  linkInDelay: 0.18,
+  linkOut: 0.22,
+  linkOutStagger: 0.045,
+  closeDelay: 0.35, // the links' exit (4 x 0.045 + 0.22 = 0.4s) is mostly over before the panel moves
+  close: 0.45,
+} as const;
+const easeInOut = [0.65, 0, 0.35, 1] as const;
 const chatHref = whatsappChatHref("Hello Alexander, I saw your plan for REAN and would like to ask a question.");
 
 export function SiteHeader() {
@@ -79,6 +93,7 @@ export function SiteHeader() {
   // page loads instead of the open menu sitting frozen until it arrives.
   const close = () => setOpenOn(null);
   const solid = scrolled || open;
+  const morph = open ? { duration: MENU.open, ease: easeSun } : { duration: MENU.close, ease: easeInOut, delay: MENU.closeDelay };
   const onDark = overDark && !solid;
 
   // Page-wide changes (scroll lock, <html data-menu>) each force the browser to lay out the whole
@@ -165,8 +180,8 @@ export function SiteHeader() {
             aria-label={open ? "Close menu" : "Open menu"}
             onClick={() => setOpenOn(open ? null : pathname)}
           >
-            <m.span aria-hidden className="absolute h-px w-4 bg-current" initial={false} animate={open ? { rotate: 45, y: 0 } : { rotate: 0, y: -4 }} transition={{ duration: 0.35, ease: easeSun }} />
-            <m.span aria-hidden className="absolute h-px w-4 bg-current" initial={false} animate={open ? { rotate: -45, y: 0 } : { rotate: 0, y: 4 }} transition={{ duration: 0.35, ease: easeSun }} />
+            <m.span aria-hidden className="absolute h-px w-4 bg-current" initial={false} animate={open ? { rotate: 45, y: 0 } : { rotate: 0, y: -4 }} transition={morph} />
+            <m.span aria-hidden className="absolute h-px w-4 bg-current" initial={false} animate={open ? { rotate: -45, y: 0 } : { rotate: 0, y: 4 }} transition={morph} />
           </button>
         </div>
       </div>
@@ -184,78 +199,88 @@ export function SiteHeader() {
         initial={false}
         animate={open ? "open" : "closed"}
         variants={{
-          open: { clipPath: "inset(0 0 0% 0)", visibility: "visible", transition: { duration: 0.6, ease: WIPE } },
-          closed: { clipPath: "inset(0 0 100% 0)", transitionEnd: { visibility: "hidden" }, transition: { duration: 0.45, ease: WIPE, delay: 0.1 } },
+          open: { visibility: "visible" },
+          // Hidden only once the panel inside has finished leaving.
+          closed: { transitionEnd: { visibility: "hidden" }, transition: { when: "afterChildren" } },
         }}
-        // Focus, scroll lock and data-menu wait for each wipe to finish (see settleOpen).
+        // Focus, scroll lock and data-menu wait for each move to finish (see settleOpen).
         onAnimationComplete={(def) => (def === "open" ? settleOpen() : settleClosed())}
-        style={{ clipPath: "inset(0 0 100% 0)", visibility: "hidden" }}
-        className="fixed inset-x-0 top-16 bottom-0 z-[45] flex flex-col justify-between overflow-y-auto overscroll-contain bg-bg px-4 pt-2 pb-[max(2rem,env(safe-area-inset-bottom))] sm:px-6 lg:hidden"
+        style={{ visibility: "hidden" }}
+        className="fixed inset-x-0 top-16 bottom-0 z-[45] overflow-hidden lg:hidden"
       >
-        <nav aria-label="Mobile">
-          <m.ul
-            variants={{
-              open: { transition: { staggerChildren: 0.07, delayChildren: 0.2 } },
-              closed: { transition: { staggerChildren: 0.03, staggerDirection: -1 } },
-            }}
-          >
-            {[{ href: "/", label: "Home" }, ...nav].map((item, i) => (
-              <li key={item.href} className="overflow-hidden border-b border-line">
-                <m.div
-                  variants={{
-                    closed: { y: "100%", opacity: 0, transition: { duration: 0.25, ease: easeSun } },
-                    open: { y: "0%", opacity: 1, transition: { duration: 0.7, ease: easeSun } },
-                  }}
-                >
-                  <Link
-                    href={item.href}
-                    onClick={close}
-                    aria-current={pathname === item.href ? "page" : undefined}
-                    className="font-display flex items-baseline justify-between py-5 text-3xl font-semibold tracking-tight aria-[current=page]:text-accent-text"
+        <m.div
+          variants={{
+            open: { y: "0%", transition: { duration: MENU.open, ease: easeSun } },
+            closed: { y: "-100%", transition: { duration: MENU.close, ease: easeInOut, delay: MENU.closeDelay } },
+          }}
+          style={{ y: "-100%" }}
+          className="flex h-full flex-col justify-between overflow-y-auto overscroll-contain bg-bg px-4 pt-2 pb-[max(2rem,env(safe-area-inset-bottom))] sm:px-6"
+        >
+          <nav aria-label="Mobile">
+            <m.ul
+              variants={{
+                open: { transition: { staggerChildren: MENU.linkInStagger, delayChildren: MENU.linkInDelay } },
+                closed: { transition: { staggerChildren: MENU.linkOutStagger, staggerDirection: -1 } },
+              }}
+            >
+              {[{ href: "/", label: "Home" }, ...nav].map((item, i) => (
+                <li key={item.href} className="overflow-hidden border-b border-line">
+                  <m.div
+                    variants={{
+                      closed: { y: "100%", opacity: 0, transition: { duration: MENU.linkOut, ease: easeInOut } },
+                      open: { y: "0%", opacity: 1, transition: { duration: MENU.linkIn, ease: easeSun } },
+                    }}
                   >
-                    {item.label}
-                    <span aria-hidden className="text-xs font-medium text-muted tabular-nums">
-                      0{i + 1}
-                    </span>
-                  </Link>
-                </m.div>
-              </li>
-            ))}
-          </m.ul>
-        </nav>
-        <div className="mt-10 space-y-3">
-          <m.div
-            variants={{
-              closed: { opacity: 0, y: 20, transition: { duration: 0.2 } },
-              open: { opacity: 1, y: 0, transition: { delay: 0.45, duration: 0.6, ease: easeSun } },
-            }}
-          >
-            <Link href="/get-involved" onClick={close} className={cn(buttonClasses({ size: "lg" }), "w-full")}>
-              Get involved
-            </Link>
-          </m.div>
-          {chatHref && (
-            <m.a
-              href={chatHref}
-              target="_blank"
-              rel="noopener noreferrer"
+                    <Link
+                      href={item.href}
+                      onClick={close}
+                      aria-current={pathname === item.href ? "page" : undefined}
+                      className="font-display flex items-baseline justify-between py-5 text-3xl font-semibold tracking-tight aria-[current=page]:text-accent-text"
+                    >
+                      {item.label}
+                      <span aria-hidden className="text-xs font-medium text-muted tabular-nums">
+                        0{i + 1}
+                      </span>
+                    </Link>
+                  </m.div>
+                </li>
+              ))}
+            </m.ul>
+          </nav>
+          <div className="mt-10 space-y-3">
+            <m.div
               variants={{
                 closed: { opacity: 0, y: 20, transition: { duration: 0.2 } },
-                open: { opacity: 1, y: 0, transition: { delay: 0.55, duration: 0.6, ease: easeSun } },
+                open: { opacity: 1, y: 0, transition: { delay: 0.45, duration: 0.6, ease: easeSun } },
               }}
-              className="flex items-center justify-between rounded-[var(--radius-lg)] border border-line bg-surface p-5"
             >
-              <span>
-                <span className="block text-sm text-muted">Questions for Alexander?</span>
-                <span className="font-display text-lg font-semibold">Chat on WhatsApp</span>
-                <span className="sr-only"> (opens WhatsApp)</span>
-              </span>
-              <span aria-hidden className="text-accent-text">
-                ↗
-              </span>
-            </m.a>
-          )}
-        </div>
+              <Link href="/get-involved" onClick={close} className={cn(buttonClasses({ size: "lg" }), "w-full")}>
+                Get involved
+              </Link>
+            </m.div>
+            {chatHref && (
+              <m.a
+                href={chatHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                variants={{
+                  closed: { opacity: 0, y: 20, transition: { duration: 0.2 } },
+                  open: { opacity: 1, y: 0, transition: { delay: 0.55, duration: 0.6, ease: easeSun } },
+                }}
+                className="flex items-center justify-between rounded-[var(--radius-lg)] border border-line bg-surface p-5"
+              >
+                <span>
+                  <span className="block text-sm text-muted">Questions for Alexander?</span>
+                  <span className="font-display text-lg font-semibold">Chat on WhatsApp</span>
+                  <span className="sr-only"> (opens WhatsApp)</span>
+                </span>
+                <span aria-hidden className="text-accent-text">
+                  ↗
+                </span>
+              </m.a>
+            )}
+          </div>
+        </m.div>
       </m.div>
     </>
   );

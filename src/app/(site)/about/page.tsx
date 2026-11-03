@@ -50,9 +50,10 @@ export default function AboutPage() {
             <TrackRecord className="mt-12" />
 
             <h3 className="mt-14 text-[13px] font-semibold tracking-[0.14em] text-muted uppercase">On the record</h3>
-            <Stagger as="ul" className="mt-5 divide-y divide-line border-y border-line">
+            {/* Lines are borders on each fact, not on the list, so none show before the facts fade in. */}
+            <Stagger as="ul" className="mt-5">
               {facts.map((f) => (
-                <StaggerItem as="li" key={f.label} className="grid gap-1 py-5 sm:grid-cols-[160px_1fr] sm:gap-6">
+                <StaggerItem as="li" key={f.label} className="grid gap-1 border-b border-line py-5 first:border-t sm:grid-cols-[160px_1fr] sm:gap-6">
                   <p className="font-semibold">{f.label}</p>
                   <p className="text-muted">
                     {f.text}

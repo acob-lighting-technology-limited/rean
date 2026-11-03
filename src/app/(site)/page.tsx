@@ -70,9 +70,15 @@ export default function HomePage() {
               {preamble.lead}
             </h2>
           </Reveal>
-          <Stagger as="ol" className="mt-14 grid gap-px overflow-hidden rounded-[var(--radius-lg)] bg-band-line sm:grid-cols-3">
+          {/* Dividers are borders on the cards, not a background behind them, so nothing shows
+              before the cards themselves fade in. */}
+          <Stagger as="ol" className="mt-14 grid overflow-hidden rounded-[var(--radius-lg)] sm:grid-cols-3">
             {preamble.drivers.map((d, i) => (
-              <StaggerItem as="li" key={d.title} className="bg-band-2 p-6 sm:p-8">
+              <StaggerItem
+                as="li"
+                key={d.title}
+                className="border-t border-band-line bg-band-2 p-6 first:border-t-0 sm:border-t-0 sm:border-l sm:p-8 sm:first:border-l-0"
+              >
                 <span className="font-display text-glow tabular-nums">0{i + 1}</span>
                 <h3 className="mt-3 text-xl font-semibold">{d.title}</h3>
                 <p className="mt-2 text-on-band-muted">{d.text}</p>
