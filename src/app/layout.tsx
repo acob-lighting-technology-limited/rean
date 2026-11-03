@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
 import { Archivo } from "next/font/google";
 import { site } from "@/lib/site";
@@ -36,6 +37,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-dvh">
         <Splash />
         {children}
+        {/* Vercel Web Analytics: cookieless, anonymous page-view counts (see the privacy notice). */}
+        <Analytics />
       </body>
     </html>
   );

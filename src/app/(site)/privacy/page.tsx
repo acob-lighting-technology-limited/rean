@@ -39,8 +39,15 @@ export default function PrivacyPage() {
           <section>
             <h2>What we collect, and why</h2>
             <p className="mt-3">
-              Only what you type into the form on the Get involved page: your name, email, your connection to REAN, and optionally your organisation, phone number and message. We use it to count
+              What you type into the form on the Get involved page: your name, email, your connection to REAN, and optionally your organisation, phone number and message. We use it to count
               your pledge of support and to reply to your question. The lawful basis is your consent, which you give by ticking the box on the form.
+            </p>
+            <p className="mt-3">
+              We also count visits with Vercel Web Analytics, to see which pages people read. It uses no cookies and records only anonymous totals: the page, the site you came from, and your
+              country, device type and browser. It can&rsquo;t identify you or follow you to other sites.
+            </p>
+            <p className="mt-3">
+              The site is hosted by Vercel, and form messages reach the campaign by email through Resend; both handle the data only to provide those services.
             </p>
           </section>
 

@@ -51,6 +51,7 @@ These stay hidden until filled; nothing fake is shown:
 
 - [x] Phone and WhatsApp (0803 290 2825), Facebook and Instagram: supplied by the campaign on 1 Nov 2026, set as defaults in `src/lib/site.ts`.
 - [x] Campaign email: info@alexanderobiechina.com (2 Nov 2026), shown in the footer, Get involved and the privacy notice. `site.ts` → `email`.
-- [ ] Form delivery: add `RESEND_API_KEY` on Vercel (Production). The sender domain alexanderobiechina.com is verified in Resend (2 Nov 2026); pledges go to info@ from pledges@ (defaults in `site.ts`). Until the key is set, the form says it isn't live.
+- [x] Form delivery: live (2 Nov 2026). `RESEND_API_KEY` is on Vercel; the sender domain alexanderobiechina.com is verified in Resend; pledges go to info@ from pledges@ (defaults in `site.ts`).
+- [x] Visit statistics: Vercel Web Analytics (cookieless), added 3 Nov 2026 and described in the privacy notice. Enable it in the Vercel project's Analytics tab for data to appear.
 - [ ] Events and endorsements. No section exists; add one when there's real material, and get written consent for endorsements.
 - [ ] Campaign updates (`src/content/updates.ts`). The newsletter PDF is deliberately held back, because it describes outcomes as already achieved.
